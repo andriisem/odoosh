@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_dymo" model="report.paperformat">
+           <field name="name">Dymo</field>
+           <field name="default" eval="True"/>
+           <field name="format">custom</field>
+           <field name="page_height">76</field>
+           <field name="page_width">25</field>
+           <field name="orientation">Landscape</field>
+           <field name="margin_top">1</field>
+           <field name="margin_bottom">1</field>
+           <field name="margin_left">1</field>
+           <field name="margin_right">1</field>
+           <field name="header_line" eval="False"/>
+           <field name="header_spacing">1</field>
+           <field name="dpi">90</field>
+        </record>
+        <report 
+            id="action_product_template_custom"
+            string="Custom Barcode (PDF)"
+            model="product.template"
+            report_type="qweb-pdf"
+            name="barcode_custom.producttemplatebarcode"
+            file="barcode_custom.producttemplatebarcode"
+            print_report_name="'Products custom barcode - %s' % (object.name)"
+            paperformat="paperformat_dymo"
+        />
+        <report 
+            id="action_product_product_custom"
+            string="Custom Barcode (PDF)"
+            model="product.product"
+            report_type="qweb-pdf"
+            name="barcode_custom.productbarcode"
+            file="barcode_custom.productbarcode"
+            print_report_name="'Products custom barcode - %s' % (object.name)"
+            paperformat="paperformat_dymo"
+        />
+        <report
+            id="action_report_custom_location_barcode"
+            string="Custom Location Barcode"            
+            model="stock.location"
+            report_type="qweb-pdf"
+            name="barcode_custom.report_custom_location_barcode"
+            file="barcode_custom.report_custom_location_barcode"
+            print_report_name="'Location - %s' % object.name"
+            paperformat="paperformat_dymo"
+        />
+        <template id="report_custom_location_barcode">
+            <t t-call="web.html_container">
+                <div t-foreach="[docs[x:x+4] for x in range(0, len(docs), 4)]" t-as="page_docs" class="page article">
+                    <t t-foreach="page_docs" t-as="o">
+                        <t t-if="o.barcode"><t t-set="content" t-value="o.barcode"/></t>
+                        <t t-if="not o.barcode"><t t-set="content" t-value="o.name"/></t>
+                        <img class="barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', content, 600, 135)" style="max-width:100%;position: absolute;margin: 20px auto 20px;display: block;" alt="Barcode"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        <template id="report_simple_barcode_custom">            
+            <div t-field="product.sku" class="text-center align-middle"/>
+            <div>
+                <t t-if="product.barcode">
+                    <img alt="Barcode" t-if="len(product.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', product.barcode, 750, 135)" style="max-width:100%;"/>
+                    <img alt="Barcode" t-elif="len(product.barcode) == 12" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('UPCA', product.barcode, 750, 135)" style="max-width:100%;"/>
+                    <img alt="Barcode" t-elif="len(product.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', product.barcode, 750, 135)" style="max-width:100%;"/>
+                    <img alt="Barcode" t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', product.barcode, 750, 135)" style="max-width:100%;"/>
+                    <p t-field="product.barcode" class="text-center align-middle"/>
+                </t>
+                <t t-else=""><p class="text-muted">No barcode available</p></t>
+            </div>      
+        </template>
+        <template id="producttemplatebarcode">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="template">
+                        <t t-foreach="template.product_variant_ids" t-as="product">
+                            <t t-call="barcode_custom.report_simple_barcode_custom">
+                                <t t-set="product" t-value="product"/>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </template>
+        <template id="productbarcode">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="product">
+                        <t t-call="barcode_custom.report_simple_barcode_custom">
+                            <t t-set="product" t-value="product"/>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>
