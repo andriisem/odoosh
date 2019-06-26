@@ -52,7 +52,7 @@
                     <t t-foreach="page_docs" t-as="o">
                         <t t-if="o.barcode"><t t-set="content" t-value="o.barcode"/></t>
                         <t t-if="not o.barcode"><t t-set="content" t-value="o.name"/></t>
-                        <img class="barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', content, 600, 135)" style="max-width:100%;position: absolute;margin: 20px auto 20px;display: block;" alt="Barcode"/>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', content, 600, 140)" style="max-width:100%;margin: 10px auto 10px;display: block;padding: 16px 0;" alt="Barcode"/>
                     </t>
                 </div>
             </t>
