@@ -5,7 +5,7 @@
     "author": 'Maksym Yankin | @yankinmax',
     "description": """
     """,
-    "depends": ['product'],
+    "depends": ['product', 'stock'],
     "data": [
         'views/product_template.xml',
         'report/product_report.xml',

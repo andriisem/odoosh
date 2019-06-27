@@ -36,6 +36,27 @@
             print_report_name="'Products custom barcode - %s' % (object.name)"
             paperformat="paperformat_dymo"
         />
+        <report
+            id="action_report_custom_location_barcode"
+            string="Custom Location Barcode"            
+            model="stock.location"
+            report_type="qweb-pdf"
+            name="barcode_custom.report_custom_location_barcode"
+            file="barcode_custom.report_custom_location_barcode"
+            print_report_name="'Location - %s' % object.name"
+            paperformat="paperformat_dymo"
+        />
+        <template id="report_custom_location_barcode">
+            <t t-call="web.html_container">
+                <div t-foreach="[docs[x:x+4] for x in range(0, len(docs), 4)]" t-as="page_docs" class="page article">
+                    <t t-foreach="page_docs" t-as="o">
+                        <t t-if="o.barcode"><t t-set="content" t-value="o.barcode"/></t>
+                        <t t-if="not o.barcode"><t t-set="content" t-value="o.name"/></t>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', content, 600, 140)" style="max-width:100%;margin: 10px auto 10px;display: block;padding: 16px 0;" alt="Barcode"/>
+                    </t>
+                </div>
+            </t>
+        </template>
         <template id="report_simple_barcode_custom">            
             <div t-field="product.sku" class="text-center align-middle"/>
             <div>
