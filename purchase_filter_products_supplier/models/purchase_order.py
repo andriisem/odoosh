@@ -7,18 +7,15 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
     # @api.multi
-    @api.onchange('product_id')
+    @api.onchange('product_id', 'partner_id')
     def onchange_product_id(self):
-        try:
-            result = super(PurchaseOrderLine, self).onchange_product_id()
+        result = super(PurchaseOrderLine, self).onchange_product_id()
 
-            supplier_infos = self.env['product.supplierinfo'].search([('name', '=', partner_id)])
-            product_ids = self.env['product.product']
-            for supplier_info in supplier_infos:
-                 product_ids += supplier_info.product_tmpl_id.product_variant_ids
+        supplier_infos = self.env['product.supplierinfo'].search([('name', '=', self.partner_id.id)])
+        product_ids = self.env['product.product']
+        for supplier_info in supplier_infos:
+            product_ids += supplier_info.product_tmpl_id.product_variant_ids
 
-            result.update({'domain': {'product_id': ['&', ('id', 'in', product_ids.ids), ('purchase_ok', '=', True)]}})
+        result.update({'domain': {'product_id': ['&', ('id', 'in', product_ids.ids), ('purchase_ok', '=', True)]}})
 
-            return result
-        except Exception as e:
-            raise Warning(_("Please choose a vendor first."))
+        return result
