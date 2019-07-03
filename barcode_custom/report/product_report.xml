@@ -16,6 +16,41 @@
            <field name="header_spacing">1</field>
            <field name="dpi">90</field>
         </record>
+        <record id="paperformat_zebra" model="report.paperformat">
+           <field name="name">Zebra4x6</field>
+           <field name="default" eval="True"/>
+           <field name="format">custom</field>
+           <field name="page_height">152</field>
+           <field name="page_width">101</field>
+           <field name="orientation">Landscape</field>
+           <field name="margin_top">5</field>
+           <field name="margin_bottom">5</field>
+           <field name="margin_left">5</field>
+           <field name="margin_right">5</field>
+           <field name="header_line" eval="False"/>
+           <field name="header_spacing">1</field>
+           <field name="dpi">90</field>
+        </record>
+        <report 
+            id="action_product_template_zebra"
+            string="Bin Label (PDF)"
+            model="product.template"
+            report_type="qweb-pdf"
+            name="barcode_custom.producttemplatebarcodezebra"
+            file="barcode_custom.producttemplatebarcodezebra"
+            print_report_name="'Bin Label barcode - %s' % (object.name)"
+            paperformat="paperformat_zebra"
+        />
+        <report 
+            id="action_product_product_zebra"
+            string="Bin Label (PDF)"
+            model="product.product"
+            report_type="qweb-pdf"
+            name="barcode_custom.productbarcodezebra"
+            file="barcode_custom.productbarcodezebra"
+            print_report_name="'Bin Label barcode - %s' % (object.name)"
+            paperformat="paperformat_zebra"
+        />
         <report 
             id="action_product_template_custom"
             string="Custom Barcode (PDF)"
@@ -53,6 +88,106 @@
                         <t t-if="o.barcode"><t t-set="content" t-value="o.barcode"/></t>
                         <t t-if="not o.barcode"><t t-set="content" t-value="o.name"/></t>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', content, 600, 140)" style="max-width:100%;margin: 10px auto 10px;display: block;padding: 16px 0;" alt="Barcode"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        <template id="report_simple_barcode_zebra">           
+            <table style="margin-left: auto;margin-right: auto; width:100%;">
+                <tr style="height:35mm;">
+                    <th class="text-center align-middle" style="width: 100%">
+                        <t t-if="len(product.display_name) &gt;= 600">
+                            <h3>                            
+                                <span t-field="product.display_name" style="font-size:10%"/>
+                            </h3>
+                        </t>
+                        <t t-elif="len(product.display_name) > 400 and len(product.display_name) &lt;= 599">
+                            <h3>                            
+                                <span t-field="product.display_name" style="font-size:25%"/>
+                            </h3>
+                        </t>
+                        <t t-elif="len(product.display_name) > 200 and len(product.display_name) &lt;= 399">
+                            <h3>                            
+                                <span t-field="product.display_name" style="font-size:50%"/>
+                            </h3>
+                        </t>
+                        <t t-else="">
+                            <h3>                            
+                                <span t-field="product.display_name" style="font-size:100%"/>
+                            </h3>
+                        </t>  
+                    </th>                    
+                </tr>                  
+            </table>
+            <table style="display:block;margin-left: auto;margin-right: auto;">
+                <tr style="height:25mm;">                   
+                    <th class="text-center align-middle" style="width: 33%">
+                        <t t-if="len(product.barcode) > 13">
+                            <h5>    
+                                <span t-field="product.barcode" style="font-size:75%"/>
+                            </h5>
+                        </t>
+                        <t t-else="">
+                            <h5>    
+                                <span t-field="product.barcode" style="font-size:100%"/>
+                            </h5>
+                        </t>
+                    </th>
+                    <th class="text-center align-middle" style="width: 33%">   
+                        <t t-if="product.barcode">
+                            <img alt="Barcode" t-if="len(product.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', product.barcode, 320, 100)" style="max-width:100%;"/>
+                            <img alt="Barcode" t-elif="len(product.barcode) == 12" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('UPCA', product.barcode, 320, 100)" style="max-width:100%;"/>
+                            <img alt="Barcode" t-elif="len(product.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', product.barcode, 320, 100)" style="max-width:100%;"/>
+                            <img alt="Barcode" t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', product.barcode, 320, 100)" style="max-width:100%;"/>
+                        </t>
+                        <t t-else=""><p class="text-muted">No barcode available</p></t>
+                    </th> 
+                    <th class="text-center align-middle" style="width: 33%">
+                        <t t-if="len(product.sku) &gt;= 70">
+                            <h5>    
+                                <span t-field="product.sku" style="font-size:10%"/>
+                            </h5>
+                        </t>
+                        <t t-elif="len(product.sku) > 50 and len(product.sku) &lt;= 69">
+                            <h5>    
+                                <span t-field="product.sku" style="font-size:25%"/>
+                            </h5>
+                        </t>
+                        <t t-elif="len(product.sku) > 30 and len(product.sku) &lt;= 49">
+                            <h5>    
+                                <span t-field="product.sku" style="font-size:50%"/>
+                            </h5>
+                        </t>
+                        <t t-else="">
+                            <h5>    
+                                <span t-field="product.sku" style="font-size:100%"/>
+                            </h5>
+                        </t>   
+                    </th>
+                </tr>                    
+            </table>
+            <hr style="border: 5px solid black;"/>
+        </template>
+        <template id="producttemplatebarcodezebra">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="template">
+                        <t t-foreach="template.product_variant_ids" t-as="product">
+                            <t t-call="barcode_custom.report_simple_barcode_zebra">
+                                <t t-set="product" t-value="product"/>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </template>
+        <template id="productbarcodezebra">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="product">
+                        <t t-call="barcode_custom.report_simple_barcode_zebra">
+                            <t t-set="product" t-value="product"/>
+                        </t>
                     </t>
                 </div>
             </t>
