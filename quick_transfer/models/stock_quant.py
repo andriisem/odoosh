@@ -8,7 +8,7 @@ class StockQuant(models.Model):
 
     def action_show_quick_details(self):
         self.ensure_one()
-        view = self.env.ref('stock.view_picking_form')
+        view = self.env.ref('quick_transfer.custom_view_picking_form')
         return {
             'name': _('Transfers'),
             'type': 'ir.actions.act_window',
