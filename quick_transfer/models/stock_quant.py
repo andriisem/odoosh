@@ -17,7 +17,8 @@ class StockQuant(models.Model):
                     product_scheduled_date = i.scheduled_date
                     product_origin = i.origin
         for i in picking_types:
-            if 'Internal' in i.name:
+            # if 'Internal' in i.name:
+            if 'Delivery' in i.name:
                 product_picking_type_id = i.id
                 break
         view = self.env.ref('quick_transfer.custom_view_picking_form')
