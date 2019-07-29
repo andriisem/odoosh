@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
@@ -16,11 +16,11 @@ class StockQuant(models.Model):
                 if i.product_id.id == self.product_id.id:
                     product_scheduled_date = i.scheduled_date
                     product_origin = i.origin
-        for i in picking_types:
-            if 'Internal' in i.name:
-            # if 'Delivery' in i.name:
-                product_picking_type_id = i.id
-                break
+                product_picking_type_id = i.picking_type_id.id
+        # for i in picking_types:
+        #     if 'Internal' in i.name:
+        #         product_picking_type_id = i.id
+        #         break
         view = self.env.ref('quick_transfer.custom_view_picking_form')
         context = dict(self.env.context)
         product_partner_id = self.product_id.company_id.partner_id.id
