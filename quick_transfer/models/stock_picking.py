@@ -14,9 +14,9 @@ class Picking(models.Model):
         )
     location_id = fields.Many2one(
         'stock.location', 'Source Location',
-        auto_join=True, index=True, required=True,
+        index=True, required=True,
         help="Sets a location if you produce at a fixed location. This can be a partner location if you subcontract the manufacturing operations.", related="custom_location_id")
     location_dest_id = fields.Many2one(
         'stock.location', 'Destination Location',
-        auto_join=True, index=True, required=True,
+        index=True, required=True,
         help="Location where the system will stock the finished products.", related="custom_location_dest_id")

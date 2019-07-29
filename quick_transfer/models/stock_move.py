@@ -15,15 +15,15 @@ class StockMove(models.Model):
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=True, compute="_compute_product_uom")
     product_id = fields.Many2one(
         'product.product', 'Product',
-        domain=[('type', 'in', ['product', 'consu'])], index=True, required=True,
+        domain=[('type', 'in', ['product', 'consu'])], index=True, required=True, store=True,
         states={'done': [('readonly', True)]}, compute="_compute_product_id")
     location_id = fields.Many2one(
         'stock.location', 'Source Location',
-        auto_join=True, index=True, required=True,
+        auto_join=True, index=True, required=True, store=True,
         help="Sets a location if you produce at a fixed location. This can be a partner location if you subcontract the manufacturing operations.", compute="_compute_location_id")
     location_dest_id = fields.Many2one(
         'stock.location', 'Destination Location',
-        auto_join=True, index=True, required=True,
+        auto_join=True, index=True, required=True, store=True,
         help="Location where the system will stock the finished products.", compute="_compute_location_dest_id")
 
     @api.depends('picking_id.move_ids_without_package.product_uom')
