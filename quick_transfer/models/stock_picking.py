@@ -24,9 +24,9 @@ class Picking(models.Model):
     @api.depends('custom_location_id')
     def _compute_location_id(self):
         for record in self:
-            record.location_id  = record.custom_location_id.id
+            record.location_id  = record.custom_location_id
 
     @api.depends('custom_location_dest_id')
     def _compute_location_dest_id(self):
         for record in self:
-            record.location_dest_id  = record.custom_location_dest_id.id
+            record.location_dest_id  = record.custom_location_dest_id

@@ -28,12 +28,12 @@ class StockMove(models.Model):
     @api.depends('picking_id.custom_location_id')
     def _compute_location_id(self):
         for record in self:
-            record.location_id  = record.picking_id.custom_location_id.id
+            record.location_id  = record.picking_id.custom_location_id
 
     @api.depends('picking_id.custom_location_dest_id')
     def _compute_location_dest_id(self):
         for record in self:
-            record.location_dest_id  = record.picking_id.custom_location_dest_id.id
+            record.location_dest_id  = record.picking_id.custom_location_dest_id
 
     @api.multi
     @api.constrains('product_uom_qty')
