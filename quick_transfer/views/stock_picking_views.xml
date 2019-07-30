@@ -120,7 +120,7 @@
                 <button name="button_scrap" type="object" string="Scrap" attrs="{'invisible': ['|', '|', '&amp;', ('picking_type_code', '!=', 'incoming'), ('state', 'in', ('draft', 'cancel', 'waiting')), '&amp;', ('picking_type_code', '=', 'incoming'), ('state', '!=', 'done'), ('is_locked', '=', False)]}"/>
                 <button name="action_toggle_is_locked" attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."/>
                 <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/>
-                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done" clickable="True"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done" context="{'default_state': state}"/>
                 <field name="picking_type_entire_packs" invisible="1"/>
             </header>
             <sheet>
@@ -206,8 +206,8 @@
                                 <field name="is_initial_demand_editable" invisible="1"/>
                                 <field name="is_quantity_done_editable" invisible="1"/>
                                 <field name="product_uom_qty" string="Initial Demand" attrs="{'readonly': False}"/>
-                                <field name="reserved_availability" string="Reserved" attrs="{'column_invisible': (['|','|', ('parent.state','=', 'done'), ('parent.picking_type_code', '=', 'incoming'),'&amp;',('parent.immediate_transfer', '=', True), ('parent.is_locked', '=', True)])}"/>
-                                <field name="quantity_done" string="Done" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>
+                                <field name="reserved_availability" string="Reserved" />
+                                <field name="quantity_done" string="Done" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}" invisible="1"/>
                                 <field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
                                 <button name="action_show_details" string="Register lots, packs, location" type="object" icon="fa-list" attrs="{'invisible': [('show_details_visible', '=', False)]}" options='{"warn": true}'/>
                             </tree>
