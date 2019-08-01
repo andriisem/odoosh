@@ -9,6 +9,7 @@
     "data": [
         'views/stock_quant_views.xml',
         'views/stock_picking_views.xml',
+        'views/stock_immediate_transfer_view.xml',
     ],
     "installable": True,
 }

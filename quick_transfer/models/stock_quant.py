@@ -22,7 +22,7 @@ class StockQuant(models.Model):
         warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)])
         picking_types = self.env['stock.picking.type'].search([('warehouse_id', '=', warehouse.id)])
         pickings = self.env['stock.picking'].search([('product_id', '=', product_product)])
-        view = self.env.ref('stock.view_picking_form')
+        view = self.env.ref('quick_transfer.custom_view_picking_form')
         for i in picking_types:
             if 'Internal' in i.name:
                 product_picking_type_id = i.id
