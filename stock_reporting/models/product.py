@@ -29,23 +29,22 @@ class ProductProduct(models.Model):
                 for z in record.stock_quant_ids:
                     location_in_quant = z.location_id
                     quantity_in_quant = z.quantity
-                for i in record.stock_move_ids:                    
-                    if i.date >= before_counting:
-                        location_list.append(i.location_id)
+                    location_list.append(location_in_quant)
                 record.locations_before  = len(set(location_list))
 
     def _compute_locations_after(self):        
         context = self.env.context
         to_date = datetime.strptime(context.get('to_date'), '%Y-%m-%d %H:%M:%S')
         for record in self:
-            if len(record.stock_move_ids) == 0:
+            if len(record.stock_quant_ids) == 0:
                 record.locations_after = 0
             else:
-                location_list = []               
-                for i in record.stock_move_ids:                                                
-                    if to_date >= i.date:
-                        location_list.append(i.location_id)
-                record.locations_after  = len(set(location_list))
+                location_list = []
+                for z in record.stock_quant_ids:
+                    location_in_quant = z.location_id
+                    quantity_in_quant = z.quantity
+                    location_list.append(location_in_quant)
+                record.locations_after = len(set(location_list))
 
     def _compute_count_before(self):
         for record in self:
