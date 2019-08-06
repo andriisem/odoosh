@@ -25,12 +25,16 @@ class ProductProduct(models.Model):
             if len(record.stock_quant_ids) == 0:
                 record.locations_before = 0
             else:
-                location_list = []
-                for z in record.stock_quant_ids:
-                    location_in_quant = z.location_id
-                    quantity_in_quant = z.quantity
-                    location_list.append(location_in_quant)
-                record.locations_before  = len(set(location_list))
+                product_id = record.id
+                self.env['stock.quant']._merge_quants()
+                self.env['stock.quant']._unlink_zero_quants()
+                domain=[["location_id.usage", "=", "internal"]]
+                fields=["product_id", "location_id", "lot_id", "package_id", "owner_id", "reserved_quantity", "quantity", "product_uom_id", "company_id"]
+                groupby=["product_id", "location_id"]
+                recordset = self.env['stock.quant'].read_group(domain, fields, groupby)
+                for i in recordset:
+                    if i['product_id'][0] == product_id:                        
+                        record.locations_before = i['product_id_count']
 
     def _compute_locations_after(self):        
         context = self.env.context
@@ -39,12 +43,16 @@ class ProductProduct(models.Model):
             if len(record.stock_quant_ids) == 0:
                 record.locations_after = 0
             else:
-                location_list = []
-                for z in record.stock_quant_ids:
-                    location_in_quant = z.location_id
-                    quantity_in_quant = z.quantity
-                    location_list.append(location_in_quant)
-                record.locations_after = len(set(location_list))
+                product_id = record.id
+                self.env['stock.quant']._merge_quants()
+                self.env['stock.quant']._unlink_zero_quants()
+                domain=[["location_id.usage", "=", "internal"]]
+                fields=["product_id", "location_id", "lot_id", "package_id", "owner_id", "reserved_quantity", "quantity", "product_uom_id", "company_id"]
+                groupby=["product_id", "location_id"]
+                recordset = self.env['stock.quant'].read_group(domain, fields, groupby)
+                for i in recordset:
+                    if i['product_id'][0] == product_id:
+                        record.locations_after = i['product_id_count']
 
     def _compute_count_before(self):
         for record in self:
