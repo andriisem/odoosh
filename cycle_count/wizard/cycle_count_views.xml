@@ -5,7 +5,7 @@
         <field name="model">cycle.count</field>
         <field name="arch" type="xml">
             <form string="Cycle Count">
-                <p>This will open fast track of creating an Inventory Adjustment. Please choose location for which you want create an Inventory Adjustment</p>
+                <p>This will open fast track of creating an Inventory Adjustment.</p>
                 <footer>
                     <button name="open_table" string="Open Cycle Count" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel" />

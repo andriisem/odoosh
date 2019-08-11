@@ -6,7 +6,6 @@
         <field name="arch" type="xml">
             <form string="Cycle Count">
             <header>
-                <button name="action_start" states="draft" string="Start Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
                 <button name="action_validate" states="confirm" string="Validate Inventory" type="object" class="oe_highlight" groups="stock.group_stock_manager"/>
                 <button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object"/>
                 <button name="action_cancel_draft" states="confirm" string="Cancel Inventory" type="object"/>
@@ -32,7 +31,7 @@
                 </div>
                 <group>
                     <group>
-                        <field name="location_id" domain="[('usage','not in', ['supplier','production'])]" groups="stock.group_stock_multi_locations"/>
+                        <field name="location_id" domain="[('usage','not in', ['supplier','production'])]" groups="stock.group_stock_multi_locations" options="{&quot;no_open&quot;: True}" widget="selection"/>
                         <field name="cycle_count_filter" string="Inventory of" widget='radio' attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                     </group>
                     <group>
@@ -132,6 +131,9 @@
                     </page>
                 </notebook>
             </sheet>
+            <footer>
+                <button name="cycle_count_action_start" states="draft" string="Start Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
+            </footer>
             </form>
         </field>
     </record>
