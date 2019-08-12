@@ -6,12 +6,10 @@
     "description": """
     Several custom inventory reports
     """,
-    "depends": ['stock', 'product'],
+    "depends": ['stock', 'product',],
     "data": [
         'wizard/stock_quantity_history.xml',
         'views/product_views.xml',
-        
     ],
-    
     "installable": True,
 }
