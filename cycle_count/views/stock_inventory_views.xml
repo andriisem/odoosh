@@ -31,7 +31,7 @@
                 </div>
                 <group>
                     <group>
-                        <field name="location_id" domain="[('usage','not in', ['supplier','production'])]" groups="stock.group_stock_multi_locations" options="{&quot;no_open&quot;: True}" widget="selection"/>
+                        <field name="location_id" domain="[('usage','not in', ['supplier','production'])]" groups="stock.group_stock_multi_locations" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                         <field name="cycle_count_filter" string="Inventory of" widget='radio' attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                     </group>
                     <group>

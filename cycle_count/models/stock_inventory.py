@@ -39,13 +39,25 @@ class Inventory(models.Model):
             ('none', _('All products')),]
         return res_filter
 
+    @api.multi
     def cycle_count_action_start(self):
         for inventory in self.filtered(lambda x: x.state not in ('done','cancel')):
             vals = {'state': 'confirm', 'date': fields.Datetime.now()}
             if (inventory.filter != 'partial') and not inventory.line_ids:
                 vals.update({'line_ids': [(0, 0, line_values) for line_values in inventory.cycle_count_get_inventory_lines_values()]})
             inventory.write(vals)
-        return True
+        tree_view_id = self.env.ref('stock.view_inventory_tree').id
+        form_view_id = self.env.ref('cycle_count.cycle_count_view_inventory_form').id
+        return {
+            'name': _('Inventory Adjustments'),
+            'type': 'ir.actions.act_window',
+            'views': [(form_view_id, 'form'), (tree_view_id, 'tree'),],
+            'view_mode': 'tree, form',
+            'view_type': 'form',
+            'target': 'current',
+            'res_id': inventory.id,
+            'res_model': 'stock.inventory',
+        }
 
     def cycle_count_get_inventory_lines_values(self):
         # TDE CLEANME: is sql really necessary ? I don't think so
