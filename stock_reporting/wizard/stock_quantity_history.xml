@@ -10,7 +10,7 @@
                 <field name="before_counting" attrs="{'invisible': [('compute_at_date','in', (0,1))]}"/>
             </xpath>
             <xpath expr="//field[@name='date']" position="replace">
-                <field name="date" attrs="{'invisible': [('compute_at_date','in', (0,2))]}"/>
+                <field name="date" attrs="{'invisible': [('compute_at_date','in', (0,2,3))]}"/>
             </xpath>
 
         </field>

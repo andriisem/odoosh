@@ -5,7 +5,7 @@
             <field name="name">product.stock.tree</field>
             <field name="model">product.product</field>
             <field name="arch" type="xml">
-                <tree string="Product Variants" decoration-danger="type == 'product' and virtual_available&lt;0" decoration-info="type != 'product' or virtual_available&gt;=0" default_order='difference desc'>
+                <tree string="Product Variants" decoration-danger="type == 'product' and virtual_available&lt;0" decoration-info="type != 'product' or virtual_available&gt;=0" create="false" edit="false" import="False">
                     <field name="barcode"/>
                     <field name="sku"/>
                     <field name="name"/>
@@ -24,51 +24,21 @@
                 </tree>                
             </field>
         </record>
-        <record model="ir.ui.view" id="custom_view_stock_product_pivot">
-            <field name="name">product.stock.pivot</field>
-            <field name="model">product.product</field>
+        <record id="custom_view_location_tree2" model="ir.ui.view">
+            <field name="name">stock.location.tree</field>
+            <field name="model">stock.location</field>
+            <field name="priority" eval="2"/>
             <field name="arch" type="xml">
-                <pivot string="Product Variants">
-                    <field name="id" type="row"/>
-                    <field name="barcode" type="col"/>
-                    <field name="sku" type="col"/>
-                    <field name="name" type="col"/>
-                    <!-- <field name="locations_before" type="col"/>
-                    <field name="locations_after" type="col"/>
-                    <field name="count_before" type="col"/>                    
-                    <field name="count_after" type="col"/>         -->           
-                    <field name="difference" type="measure"/>
-                </pivot>
-            </field>
-        </record>
-        <record id="custom_product_search_form_view" model="ir.ui.view">
-            <field name="name">product.product.search</field>
-            <field name="model">product.product</field>            
-            <field name="arch" type="xml">
-                <search string="Product">
-                    <field name="name" string="Product" filter_domain="['|', '|', ('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self)]"/>
-                    <field name="categ_id" filter_domain="[('categ_id', 'child_of', raw_value)]"/>
-                    <separator/>
-                    <filter string="Services" name="services" domain="[('type','=','service')]"/>
-                    <filter string="Products" name="consumable" domain="[('type', 'in', ['consu', 'product'])]"/>
-                    <separator/>
-                    <filter string="Can be Sold" name="filter_to_sell" domain="[('sale_ok','=',True)]"/>
-                    <filter string="Can be Purchased" name="filter_to_purchase" domain="[('purchase_ok', '=', True)]"/>
-                    <separator/>
-                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
-                    <field name="attribute_value_ids" groups="product.group_product_variant"/>
-                    <field name="product_tmpl_id" string="Product Template"/>
-                    <field name="pricelist_id" widget="selection" context="{'pricelist': self}" filter_domain="[]" groups="product.group_sale_pricelist"/> 
-                    <separator/>
-                    <filter string="Late Activities" name="activities_overdue"
-                        domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
-                        help="Show all records which has next action date is before today"/>
-                    <filter string="Today Activities" name="activities_today"
-                        domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
-                    <filter string="Future Activities" name="activities_upcoming_all"
-                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
-                        ]"/>
-                </search>
+                <tree string="Stock Location" decoration-info="usage=='view'" decoration-danger="usage=='internal'" create="false">
+                    <field name="active" invisible="1"/>
+                    <field name="display_name" string="Location"/>
+                    <field name="counted"/>
+                    <field name="location_id" invisible="1"/>
+                    <field name="child_ids" invisible="1"/>
+                    <field name="write_date" invisible="1"/>
+                    <field name="usage" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
             </field>
         </record> 
     </data>
