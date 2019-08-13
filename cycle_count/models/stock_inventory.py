@@ -27,6 +27,12 @@ class Inventory(models.Model):
              "(e.g. Cycle Counting) you can choose 'Manual Selection of Products' and the system won't propose anything.  You can also let the "
              "system propose for a single product / lot /... ")
 
+    location_id = fields.Many2one(
+        'stock.location', 'Inventoried Location',
+        readonly=True, required=True,
+        states={'draft': [('readonly', False)]},
+        default=None)
+
     def _compute_cycle_count_name(self):
         for record in self:
             record.name = record.cycle_count_name
@@ -57,6 +63,7 @@ class Inventory(models.Model):
             'target': 'current',
             'res_id': inventory.id,
             'res_model': 'stock.inventory',
+            'context': {'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'},
         }
 
     def cycle_count_get_inventory_lines_values(self):
