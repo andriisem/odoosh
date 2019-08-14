@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models, _
-from datetime import datetime
 
 class StockQuantityHistory(models.TransientModel):
     _inherit = 'stock.quantity.history'
@@ -43,6 +42,13 @@ class StockQuantityHistory(models.TransientModel):
                     'domain': "[('type', '=', 'product')]",                   
                     'context': dict(self.env.context, to_date=self.counting_day, counting_day=self.counting_day, before_counting=self.before_counting),
                 }
+                products = self.env['product.product'].search([])
+                for record in products:
+                    record.counting_day = self.counting_day
+                    record.before_counting = self.before_counting
+                    count_before = record.with_context({'to_date': self.before_counting}).qty_available
+                    count_after = record.with_context({'to_date': self.counting_day}).qty_available
+                    record.difference = count_after - count_before
             elif self.compute_at_date == 3:
                 tree_view_id = self.env.ref('stock_reporting.custom_view_location_tree2').id
                 action = {

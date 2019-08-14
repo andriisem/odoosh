@@ -20,6 +20,8 @@
                     <field name="difference"/>
                     <field name="stock_quant_ids" invisible="1"/>
                     <field name="stock_move_ids" invisible="1"/>
+                    <field name="counting_day" invisible="1"/>
+                    <field name="before_counting" invisible="1"/>
                     <field name="virtual_available" invisible="1"/>
                 </tree>                
             </field>

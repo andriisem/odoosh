@@ -9,6 +9,7 @@
     "depends": ['stock', 'product',],
     "data": [
         'wizard/stock_quantity_history.xml',
+        'wizard/product_request_mismatch.xml',
         'views/product_views.xml',
     ],
     "installable": True,
