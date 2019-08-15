@@ -3,3 +3,4 @@
 
 from . import stock_quantity_history
 from . import product_request_mismatch
+from . import product_locations

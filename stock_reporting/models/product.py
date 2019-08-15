@@ -49,22 +49,30 @@ class ProductProduct(models.Model):
 
     def action_show_locations_before(self):
         self.ensure_one()
-        for record in self:
-            product_id = record.with_context({'to_date': record.before_counting})
-        self.env['stock.quant']._merge_quants()
-        self.env['stock.quant']._unlink_zero_quants()
-        action = self.env.ref('stock.quantsact').read()[0]
-        action['limit'] = 1
-        action['domain'] = [('product_id', '=', product_id.id)]
+        form_view_id = self.env.ref('stock_reporting.product_locations_before_form_view').id
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(form_view_id, 'form')],
+            'view_mode': 'form',
+            'view_type': 'form',
+            # 'target': 'inline',
+            'name': _('Locations Before'),
+            'src_model': 'product.product',
+            'res_model': 'product.locations.before',
+        }
         return action
         
     def action_show_locations_after(self):
         self.ensure_one()
-        for record in self:
-            product_id = record.with_context({'to_date': record.counting_day})
-        self.env['stock.quant']._merge_quants()
-        self.env['stock.quant']._unlink_zero_quants()
-        action = self.env.ref('stock.quantsact').read()[0]
-        action['limit'] = 1
-        action['domain'] = [('product_id', '=', product_id.id)]
+        form_view_id = self.env.ref('stock_reporting.product_locations_after_form_view').id
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(form_view_id, 'form')],
+            'view_mode': 'form',
+            'view_type': 'form',
+            # 'target': 'inline',
+            'name': _('Locations After'),
+            'src_model': 'product.product',
+            'res_model': 'product.locations.after',
+        }
         return action

@@ -10,6 +10,7 @@
     "data": [
         'wizard/stock_quantity_history.xml',
         'wizard/product_request_mismatch.xml',
+        'wizard/product_locations.xml',
         'views/product_views.xml',
     ],
     "installable": True,
