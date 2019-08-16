@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from datetime import datetime
 from odoo import api, fields, models, _
 
 class ProductRequestMismatch(models.TransientModel):
@@ -33,7 +34,7 @@ class ProductRequestMismatch(models.TransientModel):
     def send_email(self):
         self.ensure_one()
         template_obj = self.env['mail.mail']
-        subject = 'Mismatch Investigation Request' + datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+        subject = 'Mismatch Investigation Request-' + datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
         
         for record in self:
             email_from = record.user_email
