@@ -6,7 +6,7 @@
     "description": """
     Several custom inventory reports
     """,
-    "depends": ['stock', 'product',],
+    "depends": ['stock', 'product', 'mail', 'base'],
     "data": [
         'wizard/stock_quantity_history.xml',
         'wizard/product_request_mismatch.xml',

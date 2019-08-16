@@ -6,6 +6,18 @@
 	        <field name="model">product.request.mismatch</field>
 	        <field name="arch" type="xml">
 	            <form string="Products">
+	            	<group>
+                    	<group string="E-mail from Manager">
+                    		<field name="user_id"/>
+	                    	<field name="user_email"/>
+	                	</group>	                
+	                	<group string="E-mail to">
+	                    	<field name="partner_id"/>
+	                    	<field name="partner_email"/>
+	                    </group>
+	                </group>
+	                <p><strong>Or you can send to multiple addresses. Please enter comma-separated e-mails.</strong></p>                   	
+                    <field name="partner_emails"/>
 	            	<field name="product_ids"/>
 	                <footer>
 	                    <button name="send_email" string="Send email" type="object" class="btn-primary"/>
