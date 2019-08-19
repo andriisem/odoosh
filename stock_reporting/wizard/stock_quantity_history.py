@@ -59,6 +59,14 @@ class StockQuantityHistory(models.TransientModel):
                     'res_model': 'stock.location',
                     'context': dict(self.env.context, search_default_in_location=1, to_date=self.counting_day, counting_day=self.counting_day, before_counting=self.before_counting),
                 }
+                locations = self.env['stock.location'].search([])
+                for record in locations:
+                    move_ids_create_date_list = [i.create_date for i in record.move_ids]
+                    result = list(filter(lambda x: x > self.before_counting and x < self.counting_day, move_ids_create_date_list))
+                    if len(result) > 0:
+                        record.counted = 'YES'
+                    else:
+                        record.counted = 'NO'
             return action
         else:            
             self.env['stock.quant']._merge_quants()

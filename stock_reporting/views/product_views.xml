@@ -35,7 +35,7 @@
                     <field name="active" invisible="1"/>
                     <field name="display_name" string="Location"/>
                     <field name="counted"/>
-                    <field name="move_ids" invisible="1"/>
+                    <field name="move_ids"/>
                     <field name="location_id" invisible="1"/>
                     <field name="child_ids" invisible="1"/>
                     <field name="write_date" invisible="1"/>
