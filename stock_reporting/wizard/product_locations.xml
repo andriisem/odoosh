@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data> 
+        <record id="product_locations_before_form_view" model="ir.ui.view">
+            <field name="name">Product Locations Before</field>
+            <field name="model">product.locations.before</field>
+            <field name="arch" type="xml">
+                <form string="Locations Before" create="false" delete="false" edit="false">
+                    <field name="location_ids"/>
+                </form>
+            </field>
+        </record>
+        <record id="product_locations_before_tree_view" model="ir.ui.view">
+            <field name="name">Product Locations Before</field>
+            <field name="model">product.locations.detail.before</field>
+            <field name="arch" type="xml">
+                <tree string="Locations Before" create="false" delete="false" edit="false">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                    <field name="complete_name"/>
+                    <field name="quantity"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_locations_after_form_view" model="ir.ui.view">
+            <field name="name">Product Locations After</field>
+            <field name="model">product.locations.after</field>
+            <field name="arch" type="xml">
+                <form string="Locations After" create="false" delete="false" edit="false">
+                    <field name="location_ids"/>
+                </form>
+            </field>
+        </record>
+        <record id="product_locations_after_tree_view" model="ir.ui.view">
+            <field name="name">Product Locations After</field>
+            <field name="model">product.locations.detail.after</field>
+            <field name="arch" type="xml">
+                <tree string="Locations After" create="false" delete="false" edit="false">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                    <field name="complete_name"/>
+                    <field name="quantity"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
