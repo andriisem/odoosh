@@ -8,5 +8,6 @@ class Location(models.Model):
     _inherit = "stock.location"
     
     counted = fields.Char('Counted', default='NO', store=True)
+    created_moves = fields.Integer(string='Created Moves', default=0, store=True)
     move_ids = fields.One2many(
         'stock.move', 'location_id', string='Created Moves')

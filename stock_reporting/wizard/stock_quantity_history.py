@@ -65,8 +65,10 @@ class StockQuantityHistory(models.TransientModel):
                     result = list(filter(lambda x: x > self.before_counting and x < self.counting_day, move_ids_create_date_list))
                     if len(result) > 0:
                         record.counted = 'YES'
+                        record.created_moves = len(result)
                     else:
                         record.counted = 'NO'
+                        record.created_moves = 0
             return action
         else:            
             self.env['stock.quant']._merge_quants()
