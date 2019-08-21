@@ -3,13 +3,14 @@
 
 from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
-from odoo.exceptions import UserError
+# from odoo.exceptions import UserError
 
 class StockMove(models.Model):
     _inherit = "stock.move"
 
     @api.multi
-    @api.constrains('product_uom_qty')
+    @api.onchange('product_uom_qty')
+    # @api.constrains('product_uom_qty')
     def onchange_product_uom_qty(self):
         for record in self:
             location = record.location_id
@@ -20,6 +21,12 @@ class StockMove(models.Model):
                 for z in child_quants:                    
                     if location_product_id == z.product_id.id:                  
                         if initial_demand > z.quantity:
-                            raise UserError('''Quantity of product that is planned to be moved can't be greater
-                                                than quantity what is available and reserved in the source location.''')
-            return
+                            message = _('''Quantity of product that is planned to be moved can't be greater
+                                            than quantity what is available and reserved in the source location.''')
+                            mess= {
+                                    'title': _('Are you sure?'),
+                                    'message' : message
+                                    }
+                            # raise UserError('''Quantity of product that is planned to be moved can't be greater
+                            #                     than quantity what is available and reserved in the source location.''')
+            return {'warning': mess}
