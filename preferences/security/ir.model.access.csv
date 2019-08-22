@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_print_node,print.node,model_print_node,base.group_user,1,1,1,1
+access_user_preferences,user.preferences,model_user_preferences,base.group_user,1,1,1,1
+access_shipping_rules,shipping.rules,model_shipping_rules,base.group_user,1,1,1,1
