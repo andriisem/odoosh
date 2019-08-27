@@ -3,7 +3,7 @@
 
 import base64
 from odoo import api, fields, models
-from odoo.addons.barcode_custom.models.gateway import Gateway
+from user.barcode_custom.models.gateway import Gateway
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
