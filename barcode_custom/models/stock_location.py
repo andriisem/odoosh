@@ -3,7 +3,7 @@
 
 import base64
 from odoo import api, fields, models
-# from printnodeapi import Gateway
+from user.barcode_custom.models.gateway import Gateway
 
 class Location(models.Model):
     _inherit = "stock.location"
