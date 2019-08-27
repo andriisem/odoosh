@@ -8,7 +8,7 @@ from odoo import api, fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    sku = fields.Char('SKU')
+    sku_number = fields.Char('SKU')
 
     # def get_user_preferences(self):
     #     return self.env['user.preferences'].search([('user_id', '=', self.env.user.id)])
