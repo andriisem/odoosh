@@ -7,6 +7,9 @@
             <field name="arch" type="xml">
                 <form string="Locations Before" create="false" delete="false" edit="false">
                     <field name="location_ids"/>
+                    <footer>
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
                 </form>
             </field>
         </record>
@@ -28,6 +31,9 @@
             <field name="arch" type="xml">
                 <form string="Locations After" create="false" delete="false" edit="false">
                     <field name="location_ids"/>
+                    <footer>
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
                 </form>
             </field>
         </record>
