@@ -7,10 +7,10 @@ class UserPreferences(models.Model):
     _name = 'user.preferences'
 
     name = fields.Many2one('res.users', string='User Name', track_visibility='onchange', default=lambda self: self.env.user)
-    office = fields.Char(string='Office')
-    document = fields.Char(string='Document')
-    zebra = fields.Char(string='Zebra')
-    dymo = fields.Char(string='Dymo')
+    office = fields.Many2one('print.node', string='Office')
+    document = fields.Many2one('print.node', string='Document')
+    zebra = fields.Many2one('print.node', string='Zebra')
+    dymo = fields.Many2one('print.node', string='Dymo')
     print_node_ids = fields.One2many('print.node', 'user_id', string='Print Nodes')
 
 class PrintNode(models.Model):

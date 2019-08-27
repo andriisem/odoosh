@@ -50,17 +50,6 @@
                             <field name='dymo'/>
                         </group>
                     </group>
-                    <notebook>
-                        <page string="Printers">
-                            <field name="print_node_ids">
-                                <tree>
-                                    <field name="printer_location"/>
-                                    <field name="printer_type"/>
-                                    <field name='printer_node_code'/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
                 </sheet>
             </form>
         </field>
