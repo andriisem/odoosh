@@ -5,9 +5,9 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
-            <!-- <xpath expr="//field[@name='barcode']" position="after">
+            <xpath expr="//field[@name='barcode']" position="after">
                 <field name="sku"/>
-            </xpath> -->
+            </xpath>
             <xpath expr="//header" position="replace">
                 <header position="inside" >
                     <button name="action_update_quantity_on_hand" string="Update Qty On Hand" type="object" attrs="{'invisible': [('type', '!=', 'product')]}"/>

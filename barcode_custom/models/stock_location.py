@@ -3,7 +3,7 @@
 
 import base64
 from odoo import api, fields, models
-from odoo.addons.barcode_custom.models.gateway import Gateway
+# from printnodeapi import Gateway
 
 class Location(models.Model):
     _inherit = "stock.location"
@@ -25,7 +25,10 @@ class Location(models.Model):
         gateway=Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
         # list of printers
         printers = gateway.printers(computer=None, printer=None)
-        print(printers)
+        for i in printers:
+            printer_id = i.id
+            if int(printer_id) == int(printer_node_code):
+                exact_printer_node_code = printer_id
         # printjobs = gateway.printjobs(printer=printer_node_code)
 
         # generate pdf file 
