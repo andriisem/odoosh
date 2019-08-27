@@ -3,7 +3,7 @@
 
 import base64
 from odoo import api, fields, models
-from .gateway import Gateway
+from . import gateway
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -24,7 +24,7 @@ class ProductTemplate(models.Model):
 
         # create session with PrintNode via API call 
         PrintNodeAPIKey = '6zToIF7u9bXIVGfYQMsVUrRqeO45M1iuyug4Lz-LRLk'        
-        gateway=Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
+        gateway=gateway.Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
         # list of printers
         printers = gateway.printers(computer=None, printer=None)
         for i in printers:
@@ -55,7 +55,7 @@ class ProductTemplate(models.Model):
 
         # create session with PrintNode via API call 
         PrintNodeAPIKey = '6zToIF7u9bXIVGfYQMsVUrRqeO45M1iuyug4Lz-LRLk'        
-        gateway=Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
+        gateway=gateway.Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
         # list of printers
         printers = gateway.printers(computer=None, printer=None)
         print(printers)
