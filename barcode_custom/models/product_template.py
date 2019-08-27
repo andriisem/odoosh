@@ -4,7 +4,6 @@
 import base64
 from odoo import api, fields, models
 from .gateway import Gateway
-print('ok barcode')
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
