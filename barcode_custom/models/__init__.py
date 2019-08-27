@@ -2,3 +2,17 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from . import product_template
+from . import stock_location
+from . import gateway
+from .auth import (
+    ApiError,
+    ClientError,
+    Unauthorized,
+    TooManyRequests,
+    ServerError,
+    NetworkError,
+    TimeoutError,
+    TooManyRedirectsError,
+    ConnectionError,
+    HttpError,
+    RequestError)
