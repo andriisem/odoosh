@@ -41,7 +41,8 @@
                         </h1>
                     </div>
                     <group>
-                        <group>                            
+                        <group>
+                            <field name="user_id" invisible="1"/>                            
                             <field name="office"/>
                             <field name="document"/>                            
                         </group>
