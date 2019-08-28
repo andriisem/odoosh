@@ -17,7 +17,7 @@
                         <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form ">
                             <div class="row">
                                 <div class="col-12">
-                                    <strong><field name="user_id" string="User Name"/></strong>
+                                    <strong><field name="name" string="User Name"/></strong>
                                 </div>
                             </div>
                         </div>
@@ -35,9 +35,9 @@
                 </header>    
                 <sheet string="User Preferences">
                     <div class="oe_title">
-                        <label for="user_id" class="oe_edit_only"/>
+                        <label for="name" class="oe_edit_only"/>
                         <h1 class="o_row">
-                            <field name="user_id" class="o_task_name" placeholder="User Name"/>
+                            <field name="name" class="o_task_name" placeholder="User Name"/>
                         </h1>
                     </div>
                     <group>
