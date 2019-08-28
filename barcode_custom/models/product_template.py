@@ -3,7 +3,11 @@
 
 import base64
 from odoo import api, fields, models
-from user.printnodeapi.gateway import Gateway
+from odoo.printnodeapi.gateway import Gateway
+
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -27,21 +31,21 @@ class ProductTemplate(models.Model):
         gateway=Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
         # list of printers
         printers = gateway.printers(computer=None, printer=None)
-        print(printers)
+        _logger.info(printers)
         for i in printers:
             printer_id = i.id
             if int(printer_id) == int(printer_node_code):
                 exact_printer_node_code = printer_id
-        # printjobs = gateway.printjobs(printer=printer_node_code)
-
+        printjobs = gateway.printjobs(printer=exact_printer_node_code)
+        _logger.info(printjobs)
         # generate pdf file 
         REPORT_ID = 'barcode_custom.action_product_template_zebra'
         pdf = self.env.ref(REPORT_ID).render_qweb_pdf(self.ids)
         b64_pdf = base64.b64encode(pdf[0])
         # create PrintJob on printer
-        # print(gateway.PrintJob(printer=printer_node_code,options={"copies":1},base64=b64_pdf))
+        _logger.info(gateway.PrintJob(printer=printer_node_code,options={"copies":1},base64=b64_pdf))
         # get PrintJob ID on this printer
-        # printjob_id = gateway.printjobs(printer=printer_node_code)[0].id
+        # printjob_id = gateway.printjobs(printer=exact_printer_node_code)[0].id
         # get state of PrintJob
         # print(gateway.states(printjob_id)[0][0].state)
 
