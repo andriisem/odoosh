@@ -6,7 +6,7 @@ from odoo import models, fields, api
 class UserPreferences(models.Model):
     _name = 'user.preferences'
 
-    name = fields.Many2one('res.users', string='User Name', track_visibility='onchange', default=lambda self: self.env.user)
+    user_id = fields.Many2one('res.users', string='User Name', track_visibility='onchange', default=lambda self: self.env.user)
     office = fields.Many2one('print.node', string='Office')
     document = fields.Many2one('print.node', string='Document')
     zebra = fields.Many2one('print.node', string='Zebra')
