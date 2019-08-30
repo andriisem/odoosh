@@ -10,19 +10,14 @@ class ProductLocationsBefore(models.TransientModel):
         active_product_id = self._context.get('active_model') == 'product.product' and self._context.get('active_ids') or []
         product = self.env['product.product'].browse(active_product_id)
         stock_quant_ids = product.with_context({'to_date': product.before_counting}).stock_quant_ids
-        stock_quant_ids_list = []
-        for i in stock_quant_ids:
-            quant_id = i.id
-            if i.location_id.usage == 'internal':
-                stock_quant_ids_list.append(quant_id)
-
+        qty_available = product.with_context({'to_date': product.before_counting}).qty_available
         return [
             (0, 0, {'name': product.name,
                     'location_id': quant.id,
                     'complete_name': quant.location_id.complete_name,
-                    'quantity': product.with_context({'to_date': product.before_counting}).qty_available,
+                    'quantity': quant.quantity,
                     })
-            for quant in self.env['stock.quant'].browse(stock_quant_ids_list)
+            for quant in stock_quant_ids if (quant.location_id.usage == 'internal' and quant.quantity > 0 and qty_available > 0)
         ]
 
     location_ids = fields.One2many('product.locations.detail.before', 'wizard_id', string='Locations', default=_compute_active_ids)   
@@ -50,19 +45,14 @@ class ProductLocationsAfter(models.TransientModel):
         active_product_id = self._context.get('active_model') == 'product.product' and self._context.get('active_ids') or []
         product = self.env['product.product'].browse(active_product_id)
         stock_quant_ids = product.with_context({'to_date': product.counting_day}).stock_quant_ids
-        stock_quant_ids_list = []
-        for i in stock_quant_ids:
-            quant_id = i.id
-            if i.location_id.usage == 'internal':
-                stock_quant_ids_list.append(quant_id)
-
+        qty_available = product.with_context({'to_date': product.counting_day}).qty_available
         return [
             (0, 0, {'name': product.name,
                     'location_id': quant.id,
                     'complete_name': quant.location_id.complete_name,
-                    'quantity': product.with_context({'to_date': product.counting_day}).qty_available,
+                    'quantity': quant.quantity,
                     })
-            for quant in self.env['stock.quant'].browse(stock_quant_ids_list)
+            for quant in stock_quant_ids if (quant.location_id.usage == 'internal' and quant.quantity > 0 and qty_available > 0)
         ]
 
     location_ids = fields.One2many('product.locations.detail.after', 'wizard_id', string='Locations', default=_compute_active_ids)   

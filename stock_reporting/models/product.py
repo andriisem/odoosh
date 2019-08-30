@@ -18,24 +18,30 @@ class ProductProduct(models.Model):
     def _compute_locations_before(self):
         for record in self:
             stock_quant_ids = record.with_context({'to_date': record.before_counting}).stock_quant_ids            
+            qty_available = record.with_context({'to_date': record.before_counting}).qty_available            
             if len(stock_quant_ids) == 0:
                 record.locations_before = 0
             else:
                 locations_list = []
                 for i in stock_quant_ids:
-                    if i.location_id.usage == 'internal':
+                    if i.location_id.usage == 'internal' and int(i.quantity) <= 0 and qty_available <= 0:                        
+                        pass
+                    elif i.location_id.usage == 'internal' and int(i.quantity) > 0 and qty_available > 0:
                         locations_list.append(i.location_id)
                 record.locations_before = len(set(locations_list))
 
     def _compute_locations_after(self):
         for record in self:
             stock_quant_ids = record.with_context({'to_date': record.counting_day}).stock_quant_ids            
+            qty_available = record.with_context({'to_date': record.counting_day}).qty_available            
             if len(stock_quant_ids) == 0:
                 record.locations_after = 0
             else:
                 locations_list = []
                 for i in stock_quant_ids:
-                    if i.location_id.usage == 'internal':
+                    if i.location_id.usage == 'internal' and int(i.quantity) <= 0 and qty_available <= 0:                        
+                        pass
+                    elif i.location_id.usage == 'internal' and int(i.quantity) > 0 and qty_available > 0:
                         locations_list.append(i.location_id)
                 record.locations_after = len(set(locations_list))
 

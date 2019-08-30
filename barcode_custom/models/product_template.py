@@ -3,7 +3,7 @@
 
 import base64
 from odoo import api, fields, models
-from odoo.printnodeapi.gateway import Gateway
+# from odoo.printnodeapi.gateway import Gateway
 
 import logging
 

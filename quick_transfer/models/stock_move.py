@@ -29,4 +29,6 @@ class StockMove(models.Model):
                                     }
                             # raise UserError('''Quantity of product that is planned to be moved can't be greater
                             #                     than quantity what is available and reserved in the source location.''')
-            return {'warning': mess}
+                            return {'warning': mess}
+                        else:
+                            return

@@ -61,11 +61,21 @@ class StockQuantityHistory(models.TransientModel):
                 }
                 locations = self.env['stock.location'].search([])
                 for record in locations:
-                    move_ids_create_date_list = [i.create_date for i in record.move_ids]
-                    result = list(filter(lambda x: x > self.before_counting and x < self.counting_day, move_ids_create_date_list))
-                    if len(result) > 0:
+                    inventory_ids_date_list = [i.date for i in record.inventory_ids]
+                    result = list(filter(lambda x: x > self.before_counting and x < self.counting_day, inventory_ids_date_list))
+                    inventory_ids = []
+                    if len(result) == 1:
                         record.counted = 'YES'
-                        record.created_moves = len(result)
+                        inventory_id = self.env['stock.inventory'].search([('date', '=', result[0])])
+                        record.created_moves = len(self.env['stock.inventory'].search([('id', '=', inventory_id.id)]).move_ids)
+                    elif len(result) > 1:
+                        record.counted = 'YES'
+                        for date in result:
+                            inventory_ids.append(self.env['stock.inventory'].search([('date', '=', date)]))
+                        length = 0
+                        for i in inventory_ids:
+                            length += len(self.env['stock.inventory'].search([('id', '=', i.id)]).move_ids)
+                        record.created_moves = length
                     else:
                         record.counted = 'NO'
                         record.created_moves = 0

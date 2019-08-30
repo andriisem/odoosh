@@ -6,8 +6,9 @@ from odoo import api, fields, models, _
 
 class Location(models.Model):
     _inherit = "stock.location"
+    _order = "counted asc"
     
     counted = fields.Char('Counted', default='NO', store=True)
     created_moves = fields.Integer(string='Created Moves', default=0, store=True)
-    move_ids = fields.One2many(
-        'stock.move', 'location_id', string='Created Moves')
+    inventory_ids = fields.One2many(
+        'stock.inventory', 'location_id', string='Inventory Adjustmnets')
