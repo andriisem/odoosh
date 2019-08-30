@@ -7,7 +7,71 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='barcode']" position="after">
                 <field name="sku"/>
+            </xpath>
+            <xpath expr="//header" position="replace">
+                <header position="inside" >
+                    <button name="action_update_quantity_on_hand" string="Update Qty On Hand" type="object" attrs="{'invisible': [('type', '!=', 'product')]}"/>
+                    <button string="Replenish" type="action"
+                        name="%(stock.action_product_replenish)d"
+                        context="{'default_product_tmpl_id': id}"
+                        groups="stock.group_stock_user"
+                        attrs="{'invisible': [('type', '!=', 'product')]}"/>
+                    <button name="print_bin_label" string="Print Bin Label" type="object"/>
+                    <button name="print_custom_barcode" string="Print Custom Barcode" type="object"/>
+                </header>
             </xpath>            
+        </field>
+    </record>
+    <record id="view_location_form_view_inherit" model="ir.ui.view">
+        <field name="name">stock.location.form.inherit</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="replace">
+                <form string="Stock Location" create="false">
+                    <header position="inside" >
+                        <button name="print_location_barcode" string="Print Location Barcode" type="object"/>
+                    </header>
+                    <div class="oe_button_box" name="button_box">
+                        <button string="Current Stock"
+                                class="oe_stat_button"
+                                icon="fa-building-o" name="%(stock.location_open_quants)d" type="action"/>
+                        <button string="Products"
+                                class="oe_stat_button"
+                                icon="fa-filter" name="%(stock.act_product_location_open)d" type="action"
+                                context="{'location_id': active_id}"
+                                />
+                       <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <label for="name" class="oe_edit_only"/>
+                    <h1><field name="name"/></h1>
+                    <label for="location_id" class="oe_edit_only"/>
+                    <h2><field name="location_id" options="{'no_create': True}"/></h2>
+
+                    <group>
+                        <group string="Additional Information">
+                            <field name="usage"/>
+                            <field name="partner_id"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="scrap_location"/>
+                            <field name="return_location"/>
+                        </group>
+                        <group string="Localization" name="localization">
+                            <field name="posx"/>
+                            <field name="posy"/>
+                            <field name="posz"/>
+                            <field name="barcode"/>
+                        </group>
+                        <group string="Logistics" groups="stock.group_adv_location">
+                            <field name="removal_strategy_id" options="{'no_create': True}"/>
+                            <field name="putaway_strategy_id" context="{'location_id': active_id}"/>
+                        </group>
+                    </group>
+                    <field name="comment" placeholder="External note..."/>
+                </form>   
+            </xpath>                   
         </field>
     </record>
 </odoo>

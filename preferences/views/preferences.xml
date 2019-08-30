@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem
+            id="menu_preferences_root"
+            name="Preferences"
+            web_icon="preferences,static/description/icon.png"
+            groups="preferences_group_user,preferences_group_manager"
+            sequence="40"/>
+
+    <record id="user_preferences_view_kanban" model="ir.ui.view">
+        <field name="name">user.preferences.kanban</field>
+        <field name="model">user.preferences</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong><field name="name" string="User Name"/></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="user_preferences_view_form" model="ir.ui.view">
+        <field name="name">user.preferences.form</field>
+        <field name="model">user.preferences</field>
+        <field name="arch" type="xml">
+            <form string="User's Preferences">
+                <header>
+                </header>    
+                <sheet string="User Preferences">
+                    <div class="oe_title">
+                        <label for="user_id" class="oe_edit_only"/>
+                        <h1 class="o_row">
+                            <field name="user_id" class="o_task_name" placeholder="User Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>                            
+                            <field name="office"/>
+                            <field name="document"/>                            
+                        </group>
+                        <group>
+                            <field name='zebra'/>
+                            <field name='dymo'/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="user_preferences_action" model="ir.actions.act_window">
+        <field name="name">User Preferences</field>
+        <field name="res_model">user.preferences</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,list</field>
+        <field name="view_id" ref="user_preferences_view_kanban"/>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new
+            </p>
+        </field>        
+    </record>
+
+    <record id="printers_view_kanban" model="ir.ui.view">
+        <field name="name">print.node.kanban</field>
+        <field name="model">print.node</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong><field name="name" string="Printer name"/></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="printers_view_form" model="ir.ui.view">
+        <field name="name">print.node.form</field>
+        <field name="model">print.node</field>
+        <field name="arch" type="xml">
+            <form string="Printers">
+                <header>
+                </header>    
+                <sheet string="Printer">
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1 class="o_row">
+                            <field name="name" class="o_task_name" placeholder="Printer name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>                            
+                            <field name="printer_location"/>
+                            <field name="printer_type"/>
+                            <field name='printer_node_code'/>
+                            <field name='user_id' invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="printers_action" model="ir.actions.act_window">
+        <field name="name">Printer</field>
+        <field name="res_model">print.node</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,list</field>
+        <field name="view_id" ref="printers_view_kanban"/>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new
+            </p>
+        </field>        
+    </record>    
+
+    <record id="shipping_rules_view_kanban" model="ir.ui.view">
+        <field name="name">shipping.rules.kanban</field>
+        <field name="model">shipping.rules</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong><field name="name" string="Rule name"/></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="shipping_rules_view_form" model="ir.ui.view">
+        <field name="name">shipping.rules.form</field>
+        <field name="model">shipping.rules</field>
+        <field name="arch" type="xml">
+            <form string="Shipping Rules">
+                <header>
+                </header>    
+                <sheet string="Printer">
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1 class="o_row">
+                            <field name="name" class="o_task_name" placeholder="Rule Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>                            
+                            <field name="description"/>
+                            <field name="carrier"/>
+                            <field name='shipping_method'/>
+                            <field name='conditional_weight'/>
+                        </group>
+                        <group>                            
+                            <field name="third_party_account"/>
+                            <field name="third_party_account_zipcode"/>
+                            <field name='visible_rule'/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="shipping_rules_action" model="ir.actions.act_window">
+        <field name="name">Shipping Rule</field>
+        <field name="res_model">shipping.rules</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,list</field>
+        <field name="view_id" ref="shipping_rules_view_kanban"/>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new
+            </p>
+        </field>        
+    </record>
+
+    <menuitem action="user_preferences_action" id="menu_user_preferences" name="User Preferences" parent="menu_preferences_root" sequence="1"/>
+    <menuitem action="printers_action" id="menu_printers" name="Printers" parent="menu_preferences_root" sequence="2"/>
+    <menuitem action="shipping_rules_action" id="menu_shipping_rules" name="Shipping Rules" parent="menu_preferences_root" sequence="3"/>
+</odoo>

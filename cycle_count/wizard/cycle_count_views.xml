@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_cycle_count" model="ir.ui.view">
+        <field name="name">Cycle Count</field>
+        <field name="model">cycle.count</field>
+        <field name="arch" type="xml">
+            <form string="Cycle Count">
+                <p>This will open fast track of creating an Inventory Adjustment.</p>
+                <footer>
+                    <button name="open_table" string="Open Cycle Count" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_stock_cycle_count" model="ir.actions.act_window">
+        <field name="name">Cycle Count</field>
+        <field name="res_model">cycle.count</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_stock_cycle_count"/>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_stock_cycle_count" name="Cycle Count" parent="stock.menu_stock_warehouse_mgmt" sequence="40" action="action_stock_cycle_count"/>
+</odoo>
+

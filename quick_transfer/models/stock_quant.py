@@ -33,6 +33,7 @@ class StockQuant(models.Model):
                     'partner_id': product_partner_id,
                     'product_id': product_product,
                     'location_id': product_location_id,
+                    'location_dest_id': False,
                     'immediate_transfer': False,
                     'owner_id': False,
                     'move_type': 'direct', 

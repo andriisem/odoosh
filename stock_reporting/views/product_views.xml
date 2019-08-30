@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>        
+        <record id="custom_view_stock_product_tree" model="ir.ui.view">
+            <field name="name">product.stock.tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="Product Variants" decoration-danger="type == 'product' and virtual_available&lt;0" decoration-info="type != 'product' or virtual_available&gt;=0" create="false" edit="false" import="False">
+                    <field name="barcode"/>
+                    <field name="sku"/>
+                    <field name="name"/>
+                    <field name="qty_available" invisible="1"/>
+                    <field name="locations_before"/>
+                    <field name="type" invisible="1"/>
+                    <button name="action_show_locations_before" string="Show Locations Before" type="object" icon="fa-location-arrow"/>
+                    <field name="locations_after"/>
+                    <button name="action_show_locations_after" string="Show Locations After" type="object" icon="fa-location-arrow"/>
+                    <field name="count_before"/>                    
+                    <field name="count_after"/>                    
+                    <field name="difference"/>
+                    <field name="stock_quant_ids" invisible="1"/>
+                    <field name="stock_move_ids" invisible="1"/>
+                    <field name="counting_day" invisible="1"/>
+                    <field name="before_counting" invisible="1"/>
+                    <field name="virtual_available" invisible="1"/>
+                </tree>                
+            </field>
+        </record>
+        <record id="custom_view_location_tree2" model="ir.ui.view">
+            <field name="name">stock.location.tree</field>
+            <field name="model">stock.location</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <tree string="Stock Location" decoration-info="usage=='view'" decoration-danger="usage=='internal'" create="false">
+                    <field name="active" invisible="1"/>
+                    <field name="display_name" string="Location" width="40%"/>
+                    <field name="counted"  width="20%"/>
+                    <field name="created_moves" width="20%"/>
+                    <field name="inventory_ids" width="20%"/>
+                    <field name="location_id" invisible="1"/>
+                    <field name="child_ids" invisible="1"/>
+                    <field name="write_date" invisible="1"/>
+                    <field name="usage" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record> 
+    </data>
+</odoo>

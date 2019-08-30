@@ -9,7 +9,7 @@ class Picking(models.Model):
     location_dest_id = fields.Many2one(
         'stock.location', "Destination Location",
         default=lambda self: self.env['stock.picking.type'].browse(self._context.get('default_picking_type_id')).default_location_dest_id,
-        readonly=False, required=False,
+        readonly=False, required=True,
         states={'draft': [('readonly', False)]})
 
     def make_immediate_transfer(self):
