@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import base64
-from odoo import api, fields, models
-# from odoo.printnodeapi.gateway import Gateway
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
-import logging
+from ..printnodeapi import Gateway
 
-_logger = logging.getLogger(__name__)
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -17,80 +15,61 @@ class ProductTemplate(models.Model):
     def get_user_preferences(self):
         return self.env['user.preferences'].search([('user_id', '=', self.env.user.id)])
 
+    def get_api_key(self):
+        apikey = self.env['ir.config_parameter'].sudo().get_param('printnode.api_key')
+        if not apikey:
+            raise UserError(_('''API key for PrintNode required.\n
+                                Save this key in System Parameters with key: printnode.api_key, value: <your api key>
+                                Visit https://app.printnode.com/apikeys for more information.
+                            '''))
+        return apikey
+
     @api.multi
     def print_bin_label(self):
         # user preferences with printers information
+        apikey = self.get_api_key()
         user_preferences = self.get_user_preferences()
-        user_name = user_preferences.name
-        printer_type = user_preferences.print_node_ids.printer_type
-        printer_location = user_preferences.print_node_ids.printer_location
-        printer_node_code = user_preferences.print_node_ids.printer_node_code
+        zebra_code = int(user_preferences.zebra.printer_node_code)
+        if not user_preferences and user_preferences.zebra:
+            raise UserError(_('Printer code not found, check Preferences / Printers'))
+        gateway = Gateway(url='https://api.printnode.com', apikey=apikey)
+        try:
+            printer = gateway.printers(printer=zebra_code)
+        except LookupError:
+            raise UserError(_('No printer with ID ' + str(zebra_code)))
 
-        # create session with PrintNode via API call 
-        PrintNodeAPIKey = '6zToIF7u9bXIVGfYQMsVUrRqeO45M1iuyug4Lz-LRLk'        
-        gateway=Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
-        # list of printers
-        printers = gateway.printers(computer=None, printer=None)
-        _logger.info(printers)
-        for i in printers:
-            printer_id = i.id
-            if int(printer_id) == int(printer_node_code):
-                exact_printer_node_code = printer_id
-        printjobs = gateway.printjobs(printer=exact_printer_node_code)
-        _logger.info(printjobs)
-        # generate pdf file 
-        REPORT_ID = 'barcode_custom.action_product_template_zebra'
-        pdf = self.env.ref(REPORT_ID).render_qweb_pdf(self.ids)
-        b64_pdf = base64.b64encode(pdf[0])
-        # create PrintJob on printer
-        _logger.info(gateway.PrintJob(printer=printer_node_code,options={"copies":1},base64=b64_pdf))
-        # get PrintJob ID on this printer
-        # printjob_id = gateway.printjobs(printer=exact_printer_node_code)[0].id
-        # get state of PrintJob
-        # print(gateway.states(printjob_id)[0][0].state)
-
+        pdf_barcode = self.env.ref('barcode_custom.action_product_template_zebra').render_qweb_pdf(self.ids)
+        print_job = gateway.PrintJob(printer=zebra_code, options={"copies":1}, binary=pdf_barcode[0])
+        state = gateway.states(print_job.id)[0][0].state
+        msg = """
+            PrintJob: {} 
+            Computer: {}
+            Printer: {}
+            State:{}
+            """.format(print_job.id, printer.computer.name, printer.name, state)
+        self.message_post(body=msg)
+    
     @api.multi
     def print_custom_barcode(self):
-        # user preferences with printers information
+        apikey = self.get_api_key()
         user_preferences = self.get_user_preferences()
-        user_name = user_preferences.name
-        printer_type = user_preferences.print_node_ids.printer_type
-        printer_location = user_preferences.print_node_ids.printer_location
-        printer_node_code = user_preferences.print_node_ids.printer_node_code
+        dymo_code = int(user_preferences.dymo.printer_node_code)
+        if not user_preferences and user_preferences.dymo:
+            raise UserError(_('Printer code not found, check  Preferences / Printers'))
+        gateway = Gateway(url='https://api.printnode.com', apikey=apikey)
 
-        # create session with PrintNode via API call 
-        PrintNodeAPIKey = '6zToIF7u9bXIVGfYQMsVUrRqeO45M1iuyug4Lz-LRLk'        
-        gateway=Gateway(url='https://api.printnode.com',apikey=PrintNodeAPIKey)
-        # list of printers
-        printers = gateway.printers(computer=None, printer=None)
-        for i in printers:
-            printer_id = i.id
-            if int(printer_id) == int(printer_node_code):
-                exact_printer_node_code = printer_id
-        # printjobs = gateway.printjobs(printer=printer_node_code)
-
-        # generate pdf file 
-        REPORT_ID = 'barcode_custom.action_product_template_custom'
-        pdf = self.env.ref(REPORT_ID).render_qweb_pdf(self.ids)
-        b64_pdf = base64.b64encode(pdf[0])
-        # create PrintJob on printer
-        # print(gateway.PrintJob(printer=printer_node_code,options={"copies":1},base64=b64_pdf))
-        # get PrintJob ID on this printer
-        # printjob_id = gateway.printjobs(printer=printer_node_code)[0].id
-        # get state of PrintJob
-        # print(gateway.states(printjob_id)[0][0].state)
-
-
+        try:
+            printer = gateway.printers(printer=dymo_code)
+        except LookupError:
+            raise UserError(_('No printer with ID ' + str(dymo_code)))
         
-        # save pdf as attachment
-        # ATTACHMENT_NAME = "My Attachment Name"
-        # attachment = self.env['ir.attachment'].create({
-        #     'name': ATTACHMENT_NAME,
-        #     'type': 'binary',
-        #     'datas': b64_pdf,
-        #     'datas_fname': ATTACHMENT_NAME + '.pdf',
-        #     'store_fname': ATTACHMENT_NAME,
-        #     'res_model': self._name,
-        #     'res_id': self.id,
-        #     'mimetype': 'application/x-pdf'
-        # })
+        pdf_barcode = self.env.ref('barcode_custom.action_product_template_custom').render_qweb_pdf(self.ids)
+        print_job = gateway.PrintJob(printer=dymo_code, options={"copies":1}, binary=pdf_barcode[0])
+        state = gateway.states(print_job.id)[0][0].state
+        msg = """
+            PrintJob: {} 
+            Computer: {}
+            Printer: {}
+            State:{}
+            """.format(print_job.id, printer.computer.name, printer.name, state)
+        self.message_post(body=msg)
