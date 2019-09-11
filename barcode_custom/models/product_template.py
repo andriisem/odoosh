@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import logging
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 from ..printnodeapi import Gateway
+
+_logger = logging.getLogger(__name__)
 
 
 class ProductTemplate(models.Model):
@@ -47,7 +50,7 @@ class ProductTemplate(models.Model):
             Printer: {}
             State:{}
             """.format(print_job.id, printer.computer.name, printer.name, state)
-        self.message_post(body=msg)
+        _logger.info(msg)
     
     @api.multi
     def print_custom_barcode(self):
@@ -72,4 +75,4 @@ class ProductTemplate(models.Model):
             Printer: {}
             State:{}
             """.format(print_job.id, printer.computer.name, printer.name, state)
-        self.message_post(body=msg)
+        _logger.info(msg)

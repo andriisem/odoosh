@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import logging
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 from ..printnodeapi import Gateway
+
+_logger = logging.getLogger(__name__)
 
 
 class Location(models.Model):
@@ -42,4 +46,4 @@ class Location(models.Model):
             Printer: {}
             State:{}
             """.format(print_job.id, printer.computer.name, printer.name, state)
-        raise UserError(msg)
+        _logger.info(msg)
