@@ -9,7 +9,7 @@ class CycleCount(models.TransientModel):
     location_id = fields.Many2one('stock.location', string='Location', required=True, domain="[('usage', '!=', 'view')]")
     quant_ids = fields.Many2many('stock.quant', string="Quants")
     active_camera = fields.Boolean(default=False)
-    qty = fields.Integer(strint="Qty", required=True)
+    qty = fields.Integer(strint="Qty")
 
     @api.multi
     def action_product_next_stage(self):
