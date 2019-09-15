@@ -255,9 +255,9 @@
                                         <div class="col-4">
                                             <strong>
                                                 <span class="float-right text-right">
-                                                    <button name="action_play" class="btn-open" type="object">
+                                                    <a name="action_play" string="Play" type="object">
                                                         <span class="fa fa-play fa-4x"/>
-                                                    </button>
+                                                    </a>
                                                 </span>
                                             </strong>
                                         </div>
