@@ -9,7 +9,7 @@
                 <h1 style="text-align: center;">Scan Location</h1>
                 <h2 style="text-align: center;">
                     <field name="location_id"/>
-                    <button name="action_find_location" class="btn-open" type="object">
+                    <button name="action_find_location" class="btn-open" type="object" attrs="{'invisible': [('location_id', '=', False)]}">
                         <span class="fa fa-arrow-right fa-3x" />
                     </button>
                 </h2>
@@ -21,7 +21,7 @@
                     <field name="active_camera" widget="toggle_button"/>
                 </div>
                 
-                <button name="action_find_location" class="btn-open" type="object">
+                <button name="action_open_history" class="btn-open" type="object">
                     <span class="fa fa-folder-open fa-3x" />
                 </button>
             </footer>
@@ -104,7 +104,7 @@
                 <h1 style="text-align: center;">Scan Product</h1>
                 <h2 style="text-align: center;">
                     <field name="product_id"/>
-                    <button name="action_product_next_stage" class="btn-open" type="object">
+                    <button name="action_product_next_stage" class="btn-open" type="object" attrs="{'invisible': [('product_id', '=', False)]}">
                         <span class="fa fa-arrow-right fa-3x" />
                     </button>
                 </h2>
@@ -190,6 +190,85 @@
                     </div>
                 </h2>
             </div>        
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+
+<record id="view_history_wizard" model="ir.ui.view">
+    <field name="name">History</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Items">
+            <field name="inventory_history_ids" style="margin-top:10px;" widget="section_and_note_one2many" mode="kanban">
+                <kanban class="o_kanban_mobile">
+                    <field name="location_id"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                <t>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div>
+                                                <strong>
+                                                    Location: 
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.location_id.value"/>
+                                                </span>
+                                            </div>
+                                            
+                                            <div>
+                                                <strong>
+                                                    By: 
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.partner_id.value"/>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <strong>
+                                                    State: 
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.state.value"/>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <strong>
+                                                    Date
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.date.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <strong>
+                                                <span class="float-right text-right">
+                                                    <button name="action_play" class="btn-open" type="object">
+                                                        <span class="fa fa-play fa-4x"/>
+                                                    </button>
+                                                </span>
+                                            </strong>
+                                        </div>
+                                        
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
             <footer class="cycle-count">
                 <div id="camera-switch">
                     <i class="fa fa-camera mr8"/>

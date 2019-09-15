@@ -13,6 +13,7 @@
         'product',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/assets.xml',
         'wizard/cycle_count_views.xml',
     ],

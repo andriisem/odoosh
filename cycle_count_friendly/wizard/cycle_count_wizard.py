@@ -10,6 +10,7 @@ class CycleCount(models.TransientModel):
     quant_ids = fields.Many2many('stock.quant', string="Quants")
     active_camera = fields.Boolean(default=False)
     qty = fields.Integer(strint="Qty")
+    inventory_history_ids = fields.Many2many('inventory.history', string='History', readonly=True)
 
     @api.multi
     def action_product_next_stage(self):
@@ -27,11 +28,6 @@ class CycleCount(models.TransientModel):
             'res_model': 'cycle.count.wizard',
         }
 
-    @api.multi
-    def action_save(self):
-        self.ensure_one()
-        
-    
     @api.multi
     def add_product(self):
         self.ensure_one()
@@ -87,13 +83,48 @@ class CycleCount(models.TransientModel):
              'location_id': location_id.id}).action_reopen_location()
 
     @api.multi
+    def action_save(self):
+        self.ensure_one()
+        inventory_history_id = self.env['inventory.history'].browse(self._context['inventory_history_id'])
+        inventory_history_id.action_save()
+        form_view_id = self.env.ref('cycle_count_friendly.view_stock_cycle_count_wizard').id
+        return {
+            'name': _('Cycle Count (Wizard)'),
+            'type': 'ir.actions.act_window',
+            'views': [(form_view_id, 'form')],
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new',
+            'context': {'default_quant_ids': self.location_id.quant_ids.ids},
+            'res_model': 'cycle.count.wizard',
+        }
+        
+    @api.multi
     def action_finish(self):
         self.ensure_one()
+        inventory_history_id = self.env['inventory.history'].browse(self._context['inventory_history_id'])
+        inventory_history_id.action_finish()
+        form_view_id = self.env.ref('cycle_count_friendly.view_stock_cycle_count_wizard').id
+        return {
+            'name': _('Cycle Count (Wizard)'),
+            'type': 'ir.actions.act_window',
+            'views': [(form_view_id, 'form')],
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new',
+            'res_model': 'cycle.count.wizard',
+        }
 
     @api.multi
     def action_find_location(self):
         self.ensure_one()
         form_view_id = self.env.ref('cycle_count_friendly.view_stock_onhand_count_wizard').id
+        self.env['inventory.history']
+        inventory_history = self.inventory_history_ids.create({
+            'location_id': self.location_id.id,
+            'partner_id': self.env.user.partner_id.id,
+            'state': 'new',
+        })
         return {
             'name': _('Items in %s' % self.location_id.display_name),
             'type': 'ir.actions.act_window',
@@ -103,7 +134,8 @@ class CycleCount(models.TransientModel):
             'target': 'new',
             'context': {
                 'default_quant_ids': self.location_id.quant_ids.ids,
-                'location_id': self.location_id.id
+                'location_id': self.location_id.id,
+                "inventory_history_id": inventory_history.id
                 },
             'res_model': 'cycle.count.wizard',
         }
@@ -163,3 +195,21 @@ class CycleCount(models.TransientModel):
     @api.multi
     def action_delate_no(self):
         return self.action_reopen_location()
+
+    @api.multi
+    def action_open_history(self):
+        form_view_id = self.env.ref('cycle_count_friendly.view_history_wizard').id
+        inventory_history_ids = self.inventory_history_ids.search([('state', 'in', ('draft', 'new'))])
+        return {
+            'name': _('History'),
+            'type': 'ir.actions.act_window',
+            'views': [(form_view_id, 'form')],
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new',
+            'context': {
+                'default_inventory_history_ids': inventory_history_ids.ids,
+                'location_id': self.location_id.id
+                },
+            'res_model': 'cycle.count.wizard',
+        }
