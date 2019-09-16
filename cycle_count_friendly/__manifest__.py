@@ -17,4 +17,7 @@
         'views/assets.xml',
         'wizard/cycle_count_views.xml',
     ],
+    'qweb': [
+        "static/src/xml/*.xml",
+    ]
 }

@@ -1,0 +1,61 @@
+.numpad {
+    display: inline-block;
+    text-align: center;
+    margin: 16px;
+    margin-top: 8px;
+    margin-left: 0px;
+    border: none;
+    border-radius: 0;
+    border-top: 1px solid;
+    border-color: #bfbfbf;
+    border-top-right-radius: 4px;
+}
+.numpad button {
+    float: left;
+    height: 55px;
+    width: 100px;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #555555;
+    border-radius: 0;
+    border: none;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #bfbfbf;
+    transition: all 150ms linear;
+}
+.numpad button:hover {
+    background: #efefef;
+}
+.numpad button:active {
+    background: black;
+    color: white;
+    border-color: transparent;
+}
+.numpad button:nth-child(4) {
+    border-top-right-radius: 4px;
+}
+.numpad button:last-child {
+    border-bottom-right-radius: 4px;
+}
+.input-button {
+    font-size: 24px;
+}
+.mode-button {
+    font-size: 14px;
+}
+.mode-button.selected-mode {
+    color: white;
+    background: #6EC89B;
+    border-color: transparent;
+}
+.mode-button.selected-mode:hover {
+    background: #6EC89B;
+    color: white;
+    border-color: transparent;
+}
+.numpad .disabled-mode, .pos .numpad .disabled-mode:hover {
+    background: #c7c7c7;
+    color: #a5a1a1;
+    cursor: not-allowed;
+}

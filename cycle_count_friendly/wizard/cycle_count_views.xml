@@ -103,8 +103,9 @@
             <div class="centered-content">
                 <h1 style="text-align: center;">Scan Product</h1>
                 <h2 style="text-align: center;">
-                    <field name="product_id"/>
-                    <button name="action_product_next_stage" class="btn-open" type="object" attrs="{'invisible': [('product_id', '=', False)]}">
+                    <field name="barcode"/>
+                    <field name="product_id" invisible="1"/>
+                    <button name="action_product_next_stage" class="btn-open" type="object">
                         <span class="fa fa-arrow-right fa-3x" />
                     </button>
                 </h2>
@@ -128,12 +129,15 @@
                 <h1 style="text-align: center;">Enter Quantity</h1>
                 <h2 style="text-align: center;">
                     <div>
-                        <field name="qty"/>
+                        <field name="qty" widget="char"/>
                     </div>
                     <div>
                         <button name="create_inventory" class="btn-open" type="object">
                             <span class="fa fa-arrow-right fa-3x" />
                         </button>
+                    </div>
+                    <div>
+                        <widget name="o_field_keypad" service_name="partner_autocomplete"/>
                     </div>
                 
                 </h2>
@@ -157,12 +161,15 @@
                 <h1 style="text-align: center;">Enter Quantity</h1>
                 <h2 style="text-align: center;">
                     <div>
-                        <field name="qty"/>
+                        <field name="qty" widget="char"/>
                     </div>
                     <div>
                         <button name="edit_qty_inventory" class="btn-open" type="object">
                             <span class="fa fa-arrow-right fa-3x" />
                         </button>
+                    </div>
+                    <div>
+                        <widget name="o_field_keypad" service_name="partner_autocomplete"/>
                     </div>
                 
                 </h2>
