@@ -211,7 +211,7 @@ class CycleCount(models.TransientModel):
     @api.multi
     def action_open_history(self):
         form_view_id = self.env.ref('cycle_count_friendly.view_history_wizard').id
-        inventory_history_ids = self.inventory_history_ids.search([('state', 'in', ('draft', 'new'))])
+        inventory_history_ids = self.inventory_history_ids.search([('state', '=', 'draft')])
         return {
             'name': _('History'),
             'type': 'ir.actions.act_window',
