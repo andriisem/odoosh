@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="assets_backend" name="account assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/cycle_count_friendly/static/src/scss/wizard_style.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/cycle_count_friendly/static/src/scss/keyboard.scss"/>
+        </xpath>
+
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/cycle_count_friendly/static/src/js/keyboard.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

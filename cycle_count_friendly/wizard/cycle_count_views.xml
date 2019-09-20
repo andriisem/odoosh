@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='utf-8'?><odoo>
+    
+<record id="view_stock_cycle_count_wizard" model="ir.ui.view">
+    <field name="name">Finde Location</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Cycle Count">
+            <div class="centered-content">
+                <h1 style="text-align: center;">Scan Location</h1>
+                <h2 style="text-align: center;">
+                    <field name="location_id"/>
+                    <button name="action_find_location" class="btn-open" type="object" attrs="{'invisible': [('location_id', '=', False)]}">
+                        <span class="fa fa-arrow-right fa-3x" />
+                    </button>
+                </h2>
+                
+            </div>        
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+                
+                <button name="action_open_history" class="btn-open" type="object">
+                    <span class="fa fa-folder-open fa-3x" />
+                </button>
+            </footer>
+        </form>
+    </field>
+</record>
+
+
+<record id="view_stock_onhand_count_wizard" model="ir.ui.view">
+    <field name="name">Items</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Items">
+            <div class="oe_button_box" name="button_box">
+                <button name="add_product" class="oe_stat_button" icon="fa-plus-circle" string="Add" type="object"/>
+                <button name="action_finish" class="oe_stat_button" icon="fa-flag" string="Finish" type="object"/>
+                <button name="action_save" class="oe_stat_button" icon="fa-save" string="Save" type="object"/>
+            </div>
+        
+            <field name="quant_ids" style="margin-top:10px;" widget="section_and_note_one2many" mode="kanban">
+                <kanban class="o_kanban_mobile">
+                    <field name="product_id"/>
+                    <field name="quantity"/>
+                    <field name="location_id" invisible="1"/>
+                    <field name="lot_id" groups="stock.group_production_lot" invisible="1"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                <t>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="record.product_id.value"/>
+                                                </span>
+                                            </strong>
+                                        </div>
+                                        <div class="col-2">
+                                            <strong>
+                                                <span class="float-right text-right">
+                                                    <t t-esc="record.quantity.value"/>
+                                                </span>
+                                            </strong>
+                                        </div>
+                                        <div class="col-2">
+                                            <a name="compute_qty" string="Change" type="object">
+                                                <span class="fa fa-calculator fa-3x"/>
+                                            </a>
+                                        </div>
+                                        <div class="col-2">
+                                            <a name="action_delate" string="Delate" type="object">
+                                                <span class="fa fa-trash fa-3x"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+
+<record id="view_stock_add_product_wizard" model="ir.ui.view">
+    <field name="name">Add Product</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Cycle Count">
+            <div class="centered-content">
+                <h1 style="text-align: center;">Scan Product</h1>
+                <h2 style="text-align: center;">
+                    <field name="barcode"/>
+                    <field name="product_id" invisible="1"/>
+                    <button name="action_product_next_stage" class="btn-open" type="object">
+                        <span class="fa fa-arrow-right fa-3x" />
+                    </button>
+                </h2>
+            </div>        
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="view_stock_enter_qry_product_wizard" model="ir.ui.view">
+    <field name="name">Enter qty</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Cycle Count">
+            <div class="centered-content">
+                <h1 style="text-align: center;">Enter Quantity</h1>
+                <h2 style="text-align: center;">
+                    <div>
+                        <field name="qty" widget="char"/>
+                    </div>
+                    <div>
+                        <button name="create_inventory" class="btn-open" type="object">
+                            <span class="fa fa-arrow-right fa-3x" />
+                        </button>
+                    </div>
+                    <div>
+                        <widget name="o_field_keypad" service_name="partner_autocomplete"/>
+                    </div>
+                
+                </h2>
+            </div>        
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="view_stock_edit_qty_product_wizard" model="ir.ui.view">
+    <field name="name">Edit qty</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Cycle Count">
+            <div class="centered-content">
+                <h1 style="text-align: center;">Enter Quantity</h1>
+                <h2 style="text-align: center;">
+                    <div>
+                        <field name="qty" widget="char"/>
+                    </div>
+                    <div>
+                        <button name="edit_qty_inventory" class="btn-open" type="object">
+                            <span class="fa fa-arrow-right fa-3x" />
+                        </button>
+                    </div>
+                    <div>
+                        <widget name="o_field_keypad" service_name="partner_autocomplete"/>
+                    </div>
+                
+                </h2>
+            </div>        
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="view_stock_confirm_delate_wizard" model="ir.ui.view">
+    <field name="name">Confirm Delate</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Cycle Count">
+            <div class="centered-content">
+                <h2 style="text-align: center;">
+                    <div>
+                        <button string="Yes" name="action_delate_yes" class="btn btn-success" type="object"/>
+                        <button string="No" name="action_delate_no" class="btn btn-secondary" type="object"/>                        
+                    </div>
+                </h2>
+            </div>        
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+
+<record id="view_history_wizard" model="ir.ui.view">
+    <field name="name">History</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Items">
+            <field name="inventory_history_ids" style="margin-top:10px;" widget="section_and_note_one2many" mode="kanban">
+                <kanban class="o_kanban_mobile">
+                    <field name="location_id"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                <t>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div>
+                                                <strong>
+                                                    Location: 
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.location_id.value"/>
+                                                </span>
+                                            </div>
+                                            
+                                            <div>
+                                                <strong>
+                                                    By: 
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.partner_id.value"/>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <strong>
+                                                    State: 
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.state.value"/>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <strong>
+                                                    Date
+                                                </strong>
+                                                <span>
+                                                    <t t-esc="record.date.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <strong>
+                                                <span class="float-right text-right">
+                                                    <a name="action_play" string="Play" type="object">
+                                                        <span class="fa fa-play fa-4x"/>
+                                                    </a>
+                                                </span>
+                                            </strong>
+                                        </div>
+                                        
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="action_stock_cycle_count_wizard" model="ir.actions.act_window">
+    <field name="name">Cycle Count (Wizard)</field>
+    <field name="res_model">cycle.count.wizard</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="view_stock_cycle_count_wizard"/>
+    <field name="target">new</field>
+</record>
+
+<menuitem id="menu_stock_cycle_count_wizard" name="Cycle Count (Wizard)" parent="stock.menu_stock_warehouse_mgmt" sequence="50" action="action_stock_cycle_count_wizard"/>
+
+</odoo>
