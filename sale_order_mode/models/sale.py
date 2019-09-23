@@ -4,12 +4,19 @@ from odoo import _, api, fields, models
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    has_manual_order_mode = fields.Boolean(string='Manual Order Mode')
     sale_order_mode = fields.Selection(selection=[
         ('dtc', 'DTC'),
         ('mp', 'MP'),
         ('ws', 'WS'),
         ('sc', 'SC'),
     ], string='Sale Order Mode', related='partner_id.x_studio_sale_order_mode')
+    sale_order_mode_manual = fields.Selection(selection=[
+        ('dtc', 'DTC'),
+        ('mp', 'MP'),
+        ('ws', 'WS'),
+        ('sc', 'SC'),
+    ], string='Sale Order Mode')
     total_products = fields.Integer(string='Total Products', compute='_compute_total_product')
     total_qty = fields.Float(string='Total Quantitiy', compute='_compute_total_qty')
     dtc_type = fields.Selection(selection=[

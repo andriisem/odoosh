@@ -7,11 +7,15 @@
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
         <xpath expr="//group[@name='sale_shipping']" position="inside">
-            <field name="sale_order_mode"/>
+            <field name="has_manual_order_mode"/>
+            <field name="sale_order_mode" attrs="{'invisible': [('has_manual_order_mode', '=', True)]}"/>
+            <field name="sale_order_mode_manual" attrs="{'invisible': [('has_manual_order_mode', '=', False)]}"/>
             <field name="total_products"/>
             <field name="total_qty"/>
-            <field name="dtc_type" attrs="{'invisible': [('sale_order_mode', '!=', 'DTC')]}"/>
-            <field name="dtc_note" attrs="{'invisible': [('sale_order_mode', '!=', 'DTC')]}"/>
+            <field name="dtc_type" 
+                attrs="{'invisible': ['|', '&amp;', ('sale_order_mode', '!=', 'DTC'), ('has_manual_order_mode', '=', False), ('sale_order_mode_manual', '!=', 'dtc'), ('has_manual_order_mode', '=', True)]}"/>
+            <field name="dtc_note" 
+                attrs="{'invisible': ['|', '&amp;', ('sale_order_mode', '!=', 'DTC'), ('has_manual_order_mode', '=', False), ('sale_order_mode_manual', '!=', 'dtc'), ('has_manual_order_mode', '=', True)]}"/>
         </xpath>
     </field>
 </record>
