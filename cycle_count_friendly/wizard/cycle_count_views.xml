@@ -8,8 +8,9 @@
             <div class="centered-content">
                 <h1 style="text-align: center;">Scan Location</h1>
                 <h2 style="text-align: center;">
-                    <field name="location_id"/>
-                    <button name="action_find_location" class="btn-open" type="object" attrs="{'invisible': [('location_id', '=', False)]}">
+                    <field name="location_name" widget="find_location"/>
+                    <field name="location_id" invisible="1"/>
+                    <button name="action_find_location" class="btn-open" type="object" attrs="{'invisible': True}">
                         <span class="fa fa-arrow-right fa-3x" />
                     </button>
                 </h2>
@@ -103,9 +104,9 @@
             <div class="centered-content">
                 <h1 style="text-align: center;">Scan Product</h1>
                 <h2 style="text-align: center;">
-                    <field name="barcode"/>
+                    <field name="barcode" widget="find_product"/>
                     <field name="product_id" invisible="1"/>
-                    <button name="action_product_next_stage" class="btn-open" type="object">
+                    <button name="action_product_next_stage" class="btn-open" type="object" attrs="{'invisible': True}">
                         <span class="fa fa-arrow-right fa-3x" />
                     </button>
                 </h2>
