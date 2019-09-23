@@ -6,7 +6,7 @@ class CycleCount(models.TransientModel):
     _name = 'cycle.count.wizard'
     _description = 'Cycle Count (Wizard)'
 
-    product_id = fields.Many2one('product.template', string="Product")
+    product_id = fields.Many2one('product.product', string="Product")
     location_id = fields.Many2one('stock.location', string='Location', domain="[('usage', '!=', 'view')]")
     quant_ids = fields.Many2many('stock.quant', string="Quants")
     active_camera = fields.Boolean(default=False)
