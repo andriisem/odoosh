@@ -5,6 +5,7 @@
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss" href="/cycle_count_friendly/static/src/scss/wizard_style.scss"/>
             <link rel="stylesheet" type="text/scss" href="/cycle_count_friendly/static/src/scss/keyboard.scss"/>
+            <script type="text/javascript" src="/cycle_count_friendly/static/src/js/action_enter.js"></script>
         </xpath>
 
         <xpath expr="//script[last()]" position="after">

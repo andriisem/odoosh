@@ -8,6 +8,7 @@ class CycleCount(models.TransientModel):
 
     product_id = fields.Many2one('product.product', string="Product")
     location_id = fields.Many2one('stock.location', string='Location', domain="[('usage', '!=', 'view')]")
+    location_name = fields.Char(string='Loacation Name')
     quant_ids = fields.Many2many('stock.quant', string="Quants")
     active_camera = fields.Boolean(default=False)
     qty = fields.Float(strint="Qty", default=False)
@@ -129,6 +130,11 @@ class CycleCount(models.TransientModel):
     @api.multi
     def action_find_location(self):
         self.ensure_one()
+        location_id = self.location_id.search([('name', '=', self.location_name)])
+        if location_id:
+            self.location_id = location_id
+        else:
+            raise UserError(_('Location not found'))
         form_view_id = self.env.ref('cycle_count_friendly.view_stock_onhand_count_wizard').id
         inventory_history = self.inventory_history_ids.create({
             'location_id': self.location_id.id,
