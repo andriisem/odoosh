@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+<record model="ir.ui.view" id="partner_view_import_csv">
+    <field name="name">partner.view.import.csv</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form" />    
+    <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+            <page name="sales_import_csv" string="CSV Import">
+                <group name="container_row_2">
+                    <group>
+                        <field name="csv_number_customer_po"/>
+                        <field name="csv_product_upc"/>
+                        <field name="csv_qty"/>
+                    </group>
+                    <group>
+                        <field name="has_full_name"/>
+                        <field name="csv_first_name" attrs="{'invisible': [('has_full_name', '=', True)], 'required': [('has_full_name', '=', False)]}"/>
+                        <field name="csv_last_name" attrs="{'invisible': [('has_full_name', '=', True)], 'required': [('has_full_name', '=', False)]}"/>
+                        <field name="csv_full_name" attrs="{'invisible': [('has_full_name', '=', False)], 'required': [('has_full_name', '=', True)]}"/>
+                        <field name="csv_company"/>
+                        <field name="csv_address_line_one"/>
+                        <field name="csv_address_line_two"/>
+                        <field name="csv_city"/>
+                        <field name="csv_state"/>
+                        <field name="csv_zip"/>
+                        <field name="csv_country"/>
+                        <field name="csv_phone"/>
+                    </group>
+                </group>
+            </page>        
+        </xpath>
+    </field>
+</record>
+
+</odoo>
