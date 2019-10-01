@@ -48,7 +48,7 @@ class CustomImport(models.Model):
             csv_number_customer_po = '' 
             fields = self.get_fields(partner_id)
             f = StringIO(self.file.decode("utf-8"))
-            reader_list = csv.DictReader(f, delimiter='\t')
+            reader_list = csv.DictReader(f, delimiter=',')
             for row in reader_list:
                 row_data = {}
                 product_id = self.get_product(row.get(fields['csv_product_upc']))

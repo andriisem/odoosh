@@ -71,7 +71,7 @@
     </t>
 
     <t t-name="ImportView.import_custom_button">
-        <button type="button" class="btn btn-secondary o_button_custom_import">
+        <button t-if='widget and widget.modelName == "sale.order"' type="button" class="btn btn-secondary o_button_custom_import">
             Import Custom CSV
         </button>
     </t>
