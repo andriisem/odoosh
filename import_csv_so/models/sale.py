@@ -21,7 +21,7 @@ class SaleOrder(models.Model):
     @api.model
     def create(self, vals):
         rec = super(SaleOrder, self).create(vals)
-        if len(rec.csv_zip) == 4:
+        if rec.csv_zip and len(rec.csv_zip) == 4:
             rec.csv_zip = '0' + rec.csv_zip
         return rec
 
