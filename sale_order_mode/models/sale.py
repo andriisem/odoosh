@@ -47,7 +47,7 @@ class SaleOrder(models.Model):
                     order.order_shipping_rule = order.partner_id.ws_rule.id
                 elif order.partner_id.sale_order_mode == 'sc':
                     order.order_shipping_rule = order.partner_id.sc_rule.id
-            if order.order_shipping_rule and order.order_shipping_rule.max_weight < order.order_total_weight_kg:
+            if order.order_shipping_rule.conditional_weight and order.order_shipping_rule.max_weight < order.order_total_weight_kg:
                 order.order_shipping_rule = order.order_shipping_rule.shipping_rule_id.id            
 
     @api.multi
