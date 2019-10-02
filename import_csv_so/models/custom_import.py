@@ -117,6 +117,7 @@ class CustomImport(models.Model):
                 'csv_state': so.get('csv_state'),
                 'csv_zip': so.get('csv_zip'),
                 'csv_phone': so.get('csv_phone'),
+                'csv_country': so.get('csv_country') if not partner_id.has_country else partner_id.csv_country,
             })
             list_so.append(sale_order_id.id)
             for line in so.get('order_lines'):

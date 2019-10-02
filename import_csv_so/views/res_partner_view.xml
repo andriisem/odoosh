@@ -16,6 +16,7 @@
                     </group>
                     <group>
                         <field name="has_full_name"/>
+                        <field name="has_country"/>
                         <field name="csv_first_name" attrs="{'invisible': [('has_full_name', '=', True)], 'required': [('has_full_name', '=', False)]}"/>
                         <field name="csv_last_name" attrs="{'invisible': [('has_full_name', '=', True)], 'required': [('has_full_name', '=', False)]}"/>
                         <field name="csv_full_name" attrs="{'invisible': [('has_full_name', '=', False)], 'required': [('has_full_name', '=', True)]}"/>

@@ -2,3 +2,4 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from . import print_node
+from . import shipping_rules

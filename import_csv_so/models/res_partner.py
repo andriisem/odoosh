@@ -17,5 +17,6 @@ class ResPartner(models.Model):
     csv_city = fields.Char(string='City', required=True)
     csv_state = fields.Char(string='State', required=True)
     csv_zip = fields.Char(string='Zip Code', required=True)
-    csv_country = fields.Char(string='Country')
+    has_country = fields.Boolean(string='Set Country')
+    csv_country = fields.Char(string='Country', required=True)
     csv_phone = fields.Char(string='Phone')

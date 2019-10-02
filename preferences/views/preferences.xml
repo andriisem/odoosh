@@ -26,6 +26,7 @@
             </kanban>
         </field>
     </record>
+
     <record id="user_preferences_view_form" model="ir.ui.view">
         <field name="name">user.preferences.form</field>
         <field name="model">user.preferences</field>
@@ -54,6 +55,7 @@
             </form>
         </field>
     </record>
+
     <record id="user_preferences_action" model="ir.actions.act_window">
         <field name="name">User Preferences</field>
         <field name="res_model">user.preferences</field>
@@ -87,6 +89,7 @@
             </kanban>
         </field>
     </record>
+
     <record id="printers_view_form" model="ir.ui.view">
         <field name="name">print.node.form</field>
         <field name="model">print.node</field>
@@ -113,6 +116,7 @@
             </form>
         </field>
     </record>
+    
     <record id="printers_action" model="ir.actions.act_window">
         <field name="name">Printer</field>
         <field name="res_model">print.node</field>
@@ -125,34 +129,26 @@
                 Create a new
             </p>
         </field>        
-    </record>    
-
-    <record id="shipping_rules_view_kanban" model="ir.ui.view">
-        <field name="name">shipping.rules.kanban</field>
-        <field name="model">shipping.rules</field>
-        <field name="arch" type="xml">
-            <kanban class="o_kanban_mobile">
-                <templates>
-                    <t t-name="kanban-box">
-                        <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form ">
-                            <div class="row">
-                                <div class="col-12">
-                                    <strong><field name="name" string="Rule name"/></strong>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
     </record>
+
+    <record id="shipping_rules_view_tree" model="ir.ui.view">
+            <field name="name">shipping.rule.tree</field>
+            <field name="model">shipping.rule</field>
+            <field name="arch" type="xml">
+                <tree string="Shipping Rule">
+                    <field name="name"/>
+                    <field name="ship_station_code"/>        
+                    <field name="description"/>        
+                    <field name='conditional_weight'/>
+                </tree>
+            </field>
+        </record>
+
     <record id="shipping_rules_view_form" model="ir.ui.view">
-        <field name="name">shipping.rules.form</field>
-        <field name="model">shipping.rules</field>
+        <field name="name">shipping.rule.form</field>
+        <field name="model">shipping.rule</field>
         <field name="arch" type="xml">
             <form string="Shipping Rules">
-                <header>
-                </header>    
                 <sheet string="Printer">
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
@@ -162,27 +158,25 @@
                     </div>
                     <group>
                         <group>                            
-                            <field name="description"/>
-                            <field name="carrier"/>
-                            <field name='shipping_method'/>
+                            <field name="ship_station_code"/>        
+                            <field name="visible_rule"/>        
+                            <field name="description"/>        
                             <field name='conditional_weight'/>
-                        </group>
-                        <group>                            
-                            <field name="third_party_account"/>
-                            <field name="third_party_account_zipcode"/>
-                            <field name='visible_rule'/>
+                            <field name='max_weight' attrs="{'invisible': [('conditional_weight', '=', False)], 'required': [('conditional_weight', '=', True)]}"/>
+                            <field name='shipping_rule_id' attrs="{'invisible': [('conditional_weight', '=', False)], 'required': [('conditional_weight', '=', True)]}"/>
                         </group>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
+
     <record id="shipping_rules_action" model="ir.actions.act_window">
         <field name="name">Shipping Rule</field>
-        <field name="res_model">shipping.rules</field>
+        <field name="res_model">shipping.rule</field>
         <field name="view_type">form</field>
-        <field name="view_mode">kanban,form,list</field>
-        <field name="view_id" ref="shipping_rules_view_kanban"/>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="shipping_rules_view_tree"/>
         <field name="target">main</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

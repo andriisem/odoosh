@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+<record model="ir.ui.view" id="partner_view_shipping_info">
+    <field name="name">partner.view.import.shipping.info</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>    
+    <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+            <page name="shipping_info" string="Shipping Info">
+                <group name="container_row_2">
+                    <group>
+                        <field name="sale_order_mode"/>
+                        <field name="has_manual_shipping"/>
+                        <field name="dtc_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
+                        <field name="ws_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
+                        <field name="mp_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
+                        <field name="sc_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
+                    </group>
+                    <group>
+                        <field name="has_do_not_crush"/>
+                        <field name="has_mixed"/>
+                        <field name="has_box_content"/>
+                        <field name="has_bag_content"/>
+                        <field name="has_box_label"/>
+                        <field name="has_pallet_slip"/>
+                        <field name="has_bill_of_lading"/>
+                        <field name="has_packing_list"/>
+                        <field name="has_commercial_invoice"/>
+                    </group>
+                </group>
+            </page>        
+        </xpath>
+    </field>
+</record>
+
+</odoo>

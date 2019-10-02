@@ -17,3 +17,18 @@ class SaleOrder(models.Model):
     csv_zip = fields.Char(string='Zip Code')
     csv_country = fields.Char(string='Country')
     csv_phone = fields.Char(string='Phone')
+
+    @api.model
+    def create(self, vals):
+        rec = super(SaleOrder, self).create(vals)
+        if len(rec.csv_zip) == 4:
+            rec.csv_zip = '0' + rec.csv_zip
+        return rec
+
+    @api.multi
+    def write(self, values):
+        res = super(SaleOrder, self).write(values)
+        if values.get('csv_zip') and len(values.get('csv_zip')) == 4:
+            for order in self:
+                order.csv_zip = '0' + order.csv_zip
+        return res
