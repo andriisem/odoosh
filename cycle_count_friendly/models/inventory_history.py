@@ -4,6 +4,7 @@ from odoo import _, api, fields, models
 
 class InventoryHistoty(models.Model):
     _name = 'inventory.history'
+    _description = 'inventory.history'
 
     state = fields.Selection(string='State', selection=[
         ('new', 'New'),

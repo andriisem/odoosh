@@ -8,6 +8,7 @@ from odoo import _, api, fields, models
 
 class CustomImport(models.Model):
     _name = 'custom_csv.import'
+    _description = 'custom_csv.import'
 
     res_model = fields.Char('Model')
     file = fields.Binary('File', help="File to check and/or import, raw binary (not base64)")

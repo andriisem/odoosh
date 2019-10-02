@@ -5,6 +5,7 @@ from odoo import models, fields, api
 
 class UserPreferences(models.Model):
     _name = 'user.preferences'
+    _description = 'user.preferences'
 
     user_id = fields.Many2one('res.users', string='User Name', track_visibility='onchange', default=lambda self: self.env.user)
     name = fields.Char('User Name', related='user_id.name', readonly=True)
@@ -16,7 +17,8 @@ class UserPreferences(models.Model):
 
 class PrintNode(models.Model):
     _name = 'print.node'
-
+    _description = 'print.node'
+    
     name = fields.Char(string='Printer Name')
     printer_location = fields.Selection(string='Printer Location', selection=[
             ('hawtorne', 'Hawtorne, CA'),

@@ -3,6 +3,7 @@ from odoo import _, api, fields, models
 
 class ShippingRules(models.Model):
     _name = 'rule.shipping'
+    _description = 'rule.shipping'
 
     name = fields.Char(string='Rule Name', required=True)
     ship_station_code = fields.Char(string='ShipStation Code')

@@ -5,6 +5,7 @@ from odoo import api, fields, models, _
 
 class ProductLocationsBefore(models.TransientModel):
     _name = 'product.locations.before'
+    _description = 'product.locations.before'
 
     def _compute_active_ids(self):
         active_product_id = self._context.get('active_model') == 'product.product' and self._context.get('active_ids') or []
@@ -25,6 +26,7 @@ class ProductLocationsBefore(models.TransientModel):
 
 class ProductLocationsDetailBefore(models.TransientModel):
     _name = 'product.locations.detail.before'
+    _description = 'product.locations.detail.before'
 
     wizard_id = fields.Many2one('product.locations.before', string='Wizard', readonly=True,)
     name = fields.Char('Name', index=True, required=True, translate=True)
@@ -40,6 +42,7 @@ class ProductLocationsDetailBefore(models.TransientModel):
 
 class ProductLocationsAfter(models.TransientModel):
     _name = 'product.locations.after'
+    _description = 'product.locations.after'
 
     def _compute_active_ids(self):
         active_product_id = self._context.get('active_model') == 'product.product' and self._context.get('active_ids') or []
@@ -60,6 +63,7 @@ class ProductLocationsAfter(models.TransientModel):
 
 class ProductLocationsDetailAfter(models.TransientModel):
     _name = 'product.locations.detail.after'
+    _description = 'product.locations.detail.after'
 
     wizard_id = fields.Many2one('product.locations.after', string='Wizard', readonly=True,)
     name = fields.Char('Name', index=True, required=True, translate=True)

@@ -6,6 +6,7 @@ from odoo import api, fields, models, _
 
 class ProductRequestMismatch(models.TransientModel):
     _name = 'product.request.mismatch'
+    _description = 'product.request.mismatch'
 
     def _compute_active_ids(self):
         active_product_ids = self._context.get('active_model') == 'product.product' and self._context.get('active_ids') or []
@@ -117,6 +118,7 @@ class ProductRequestMismatch(models.TransientModel):
 
 class ProductRequestMismatchProduct(models.TransientModel):
     _name = 'product.request.mismatch.product'
+    _description = 'product.request.mismatch.product'
 
     wizard_id = fields.Many2one('product.request.mismatch', string='Wizard', required=True, ondelete='cascade')
     product_id = fields.Many2one('product.product', string='Product', required=True,)
