@@ -21,7 +21,7 @@ class ResPartner(models.Model):
     has_box_content = fields.Boolean(string='Box Content')
     has_bag_content = fields.Boolean(string='Bag Content')
     has_box_label = fields.Boolean(string='Box Label')
-    has_pallet_slip	 = fields.Boolean(string='Pallet Slip')
+    has_pallet_slip = fields.Boolean(string='Pallet Slip')
     has_bill_of_lading = fields.Boolean(string='Bill of Lading')
     has_packing_list = fields.Boolean(string='Packing List')
     has_commercial_invoice = fields.Boolean(string='Commercial Invoice')
