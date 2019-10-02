@@ -9,11 +9,12 @@
 
     'depends': [
         'sale',
-        'preferences',
     ],
 
     'data': [
+        'security/ir.model.access.csv',
         'views/sale_order_view.xml',
         'views/res_partner_view.xml',
+        'views/shipping_rule_views.xml',
     ],
 }
