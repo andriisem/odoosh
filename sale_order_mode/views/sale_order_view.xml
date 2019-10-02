@@ -1,7 +1,7 @@
-<!-- <?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
 
-<record id="view_order_form_with_mode" model="ir.ui.view">
+<!-- <record id="view_order_form_with_mode" model="ir.ui.view">
     <field name="name">delivery.sale.order.form.with.mode</field>
     <field name="model">sale.order</field>
     <field name="priority">99</field>
@@ -27,6 +27,6 @@
         </xpath>
         
     </field>
-</record>
+</record> -->
 
-</odoo> -->
+</odoo>
