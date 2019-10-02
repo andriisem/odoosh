@@ -28,6 +28,19 @@
         </field>
     </record>
 
+    <record id="shipping_rules_view_tree" model="ir.ui.view">
+        <field name="name">rule.shipping.tree</field>
+        <field name="model">rule.shipping</field>
+        <field name="arch" type="xml">
+            <tree string="Shipping Rule">
+                <field name="name"/>
+                <field name="ship_station_code"/>
+                <field name="description"/>
+                <field name='conditional_weight'/>
+            </tree>
+        </field>
+    </record>
+
     <record id="shipping_rules_action" model="ir.actions.act_window">
         <field name="name">Shipping Rule</field>
         <field name="res_model">rule.shipping</field>

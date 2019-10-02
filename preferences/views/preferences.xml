@@ -131,23 +131,6 @@
         </field>        
     </record>
 
-    <record id="shipping_rules_view_tree" model="ir.ui.view">
-            <field name="name">rule.shipping.tree</field>
-            <field name="model">rule.shipping</field>
-            <field name="arch" type="xml">
-                <tree string="Shipping Rule">
-                    <field name="name"/>
-                    <field name="ship_station_code"/>        
-                    <field name="description"/>        
-                    <field name='conditional_weight'/>
-                </tree>
-            </field>
-        </record>
-
-    
-
-    
-
     <menuitem action="user_preferences_action" id="menu_user_preferences" name="User Preferences" parent="menu_preferences_root" sequence="1"/>
     <menuitem action="printers_action" id="menu_printers" name="Printers" parent="menu_preferences_root" sequence="2"/>
 </odoo>
