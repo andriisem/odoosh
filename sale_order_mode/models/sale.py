@@ -31,7 +31,7 @@ class SaleOrder(models.Model):
         compute='_compute_order_total_weight_kg')
     order_total_weight_oz = fields.Float(string='Order Total Weight (OZ)', 
         compute='_compute_order_total_weight_oz')
-    order_shipping_rule = fields.Many2one('shipping.rule', string='Order Shipping Rule', compute='_compute_order_shipping_rule')
+    order_shipping_rule = fields.Many2one('rule.shipping', string='Order Shipping Rule', compute='_compute_order_shipping_rule')
     shipping_rule_code = fields.Char(string='Shipping Rule Code', related='order_shipping_rule.ship_station_code')
 
 
