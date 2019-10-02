@@ -2,7 +2,7 @@
     'name': 'Sale Order Mode',
     'summary': '',
     'description': '',
-    'version': '1.0',
+    'version': '1.1',
     'auto_install': False,
     'installable': True,
     'application': True,
