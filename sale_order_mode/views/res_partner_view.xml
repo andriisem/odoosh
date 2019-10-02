@@ -12,10 +12,10 @@
                     <group>
                         <field name="sale_order_mode"/>
                         <field name="has_manual_shipping"/>
-                        <!-- <field name="dtc_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
+                        <field name="dtc_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
                         <field name="ws_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
                         <field name="mp_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
-                        <field name="sc_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/> -->
+                        <field name="sc_rule" attrs="{'invisible': [('has_manual_shipping', '=', True)], 'required': [('has_manual_shipping', '=', False)]}"/>
                     </group>
                     <group>
                         <field name="has_do_not_crush"/>
