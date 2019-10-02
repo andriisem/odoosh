@@ -1,0 +1,91 @@
+<templates>
+
+    <t t-name="ImportCustomView">
+        <t t-set="_id" t-value="_.uniqueId('export')"/>
+        <form action="" method="post" enctype="multipart/form-data" class="oe_import">
+            <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
+            <input type="hidden" name="import_id"/>
+            <div class="oe_import_box col-lg-12 d-none">
+                <input accept=".csv" t-attf-id="file_#{_id}"
+                      name="file" class="oe_import_file" type="file" style="display:none;"/>
+                <input name="customer" class="oe_import_customer" type="text" style="display:none;"/>
+            </div>
+            <div class="oe_import_with_file oe_padding col-md-12">
+                <div class="oe_import_preview"></div>
+                
+            </div>
+        </form>
+    </t>
+    <t t-name="ImportCsvView.preview.error">
+        <div t-if='error' class="bg-danger">
+            <p>Unable to upload CSV file</p>
+            <p><t t-esc='msg_error'/></p>
+        </div>
+        <t t-foreach='preview' t-as='order'>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 t-if="order.csv_number_customer_po"><b>Customer PO #: </b><span><t t-esc="order.csv_number_customer_po"/></span></h3>
+                        <h3 t-if="order.csv_first_name"><b>First Name: </b><span><t t-esc="order.csv_first_name"/></span></h3>
+                        <h3 t-if="order.csv_last_name"><b>Last Name: </b><span><t t-esc="order.csv_last_name"/></span></h3>
+                        <h3 t-if="order.csv_full_name"><b>Full Name: </b><span><t t-esc="order.csv_full_name"/></span></h3>
+                        <h3 t-if="order.csv_company"><b>Comapany: </b><span><t t-esc="order.csv_company"/></span></h3>
+                        <h3 t-if="order.csv_phone"><b>Phone: </b><span><t t-esc="order.csv_phone"/></span></h3>
+                        <h3 t-if="order.csv_address_line_one"><b>Address line 1: </b><span><t t-esc="order.csv_address_line_one"/></span></h3>
+                        <h3 t-if="order.csv_address_line_two"><b>Address line 2: </b><span><t t-esc="order.csv_address_line_two"/></span></h3>
+                        <h3 t-if="order.csv_city"><b>City: </b><span><t t-esc="order.csv_city"/></span></h3>
+                        <h3 t-if="order.csv_state"><b>State: </b><span><t t-esc="order.csv_state"/></span></h3>
+                        <h3 t-if="order.csv_zip"><b>ZIP Code: </b><span><t t-esc="order.csv_zip"/></span></h3>
+                        <h3 t-if="order.csv_country"><b>Country: </b><span><t t-esc="order.csv_country"/></span></h3>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>UPC</th>
+                                    <th>QTY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="order.order_lines" t-as="line">
+                                    <td t-att-style="!line.product_name ? 'background: #A52A2A' : null"><t t-if="line.product_name"><span t-esc="line.product_name"/></t></td>
+                                    <td><span t-esc="line.csv_product_upc"/></td>
+                                    <td><span t-esc="line.csv_qty"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>       
+                </div>
+                <hr/>
+                <br/>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="ImportCsvView.buttons">
+        <button type="button" class="btn btn-primary o_import_import d-none">Import</button>
+        <button type="button" class="btn btn-primary oe_import_file d-none">Load File</button>
+        <button type="button" class="btn btn-primary oe_select_customer">Select Customer</button>
+        <button type="button" class="btn btn-secondary o_import_cancel">Cancel</button>
+    </t>
+
+    <t t-name="ImportView.import_custom_button">
+        <button t-if='widget and widget.modelName == "sale.order"' type="button" class="btn btn-secondary o_button_custom_import">
+            Import Custom CSV
+        </button>
+    </t>
+
+    <t t-extend="ListView.buttons">
+        <t t-jquery="button:last" t-operation="after">
+           <t t-call="ImportView.import_custom_button"/>
+        </t>
+    </t>
+    
+    <t t-extend="KanbanView.buttons">
+        <t t-jquery="button:last" t-operation="after">
+           <t t-call="ImportView.import_custom_button"/>
+        </t>
+    </t>
+
+</templates>

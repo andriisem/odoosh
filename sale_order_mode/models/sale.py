@@ -1,5 +1,7 @@
 from odoo import _, api, fields, models
 
+OUNCE = 35.274
+
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -10,7 +12,7 @@ class SaleOrder(models.Model):
         ('mp', 'MP'),
         ('ws', 'WS'),
         ('sc', 'SC'),
-    ], string='Sale Order Mode', related='partner_id.x_studio_sale_order_mode')
+    ], string='Sale Order Mode', related='partner_id.sale_order_mode')
     sale_order_mode_manual = fields.Selection(selection=[
         ('dtc', 'DTC'),
         ('mp', 'MP'),
@@ -25,6 +27,41 @@ class SaleOrder(models.Model):
         ('empty', 'Empty'),
     ], string="DTC Type", compute='_compute_dtc_type')
     dtc_note = fields.Char(string='DTC Note', compute='_compute_dtc_note')
+    order_total_weight_kg = fields.Float(string='Order Total Weight (KG)', 
+        compute='_compute_order_total_weight_kg')
+    order_total_weight_oz = fields.Float(string='Order Total Weight (OZ)', 
+        compute='_compute_order_total_weight_oz')
+    order_shipping_rule = fields.Many2one('shipping.rule', string='Order Shipping Rule', compute='_compute_order_shipping_rule')
+    shipping_rule_code = fields.Char(string='Shipping Rule Code', related='order_shipping_rule.ship_station_code')
+
+    @api.depends('sale_order_mode', 'sale_order_mode_manual')
+    def _compute_order_shipping_rule(self):
+        for order in self:
+            if not order.partner_id.has_manual_shipping:
+                if order.partner_id.sale_order_mode == 'dtc':
+                    order.order_shipping_rule = order.partner_id.dtc_rule.id
+                elif order.partner_id.sale_order_mode == 'mp':
+                    order.order_shipping_rule = order.partner_id.mp_rule.id
+                elif order.partner_id.sale_order_mode == 'ws':
+                    order.order_shipping_rule = order.partner_id.ws_rule.id
+                elif order.partner_id.sale_order_mode == 'sc':
+                    order.order_shipping_rule = order.partner_id.sc_rule.id
+            if order.order_shipping_rule and order.order_shipping_rule.max_weight < order.order_total_weight_kg:
+                order.order_shipping_rule = order.order_shipping_rule.shipping_rule_id.id            
+
+    @api.multi
+    @api.depends('order_line')
+    def _compute_order_total_weight_kg(self):
+        for order in self:
+            weight = 0
+            for line in order.order_line:
+                weight += (line.product_id.weight * line.product_uom_qty)
+            order.order_total_weight_kg = weight
+    
+    @api.depends('order_total_weight_kg')
+    def _compute_order_total_weight_oz(self):
+        for order in self:
+            order.order_total_weight_oz = order.order_total_weight_kg * OUNCE
 
     @api.multi
     @api.depends('order_line')

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="view_order_form_csv_import" model="ir.ui.view">
+        <field name="name">sale.order.form.csv.import</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sales_person']" position="inside">
+                <field name="csv_batch_number"/>    
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="csv_number_customer_po"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="DTC Ship to" name="dtc_ship_to">
+                    <group>
+                        <group>
+                            <field name="csv_first_name"/>
+                            <field name="csv_last_name"/>
+                            <field name="csv_full_name"/>
+                            <field name="csv_company"/>
+                        </group>
+                        <group>
+                            <field name="csv_address_line_one"/>
+                            <field name="csv_address_line_two"/>
+                            <field name="csv_city"/>
+                            <field name="csv_state"/>
+                            <field name="csv_zip"/>
+                            <field name="csv_country"/>
+                            <field name="csv_phone"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

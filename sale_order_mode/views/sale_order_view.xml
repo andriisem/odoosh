@@ -4,6 +4,7 @@
 <record id="view_order_form_with_mode" model="ir.ui.view">
     <field name="name">delivery.sale.order.form.with.mode</field>
     <field name="model">sale.order</field>
+    <field name="priority">99</field>
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
         <xpath expr="//group[@name='sale_shipping']" position="inside">
@@ -17,6 +18,14 @@
             <field name="dtc_note" 
                 attrs="{'invisible': ['|', '&amp;', ('sale_order_mode', '!=', 'DTC'), ('has_manual_order_mode', '=', False), ('sale_order_mode_manual', '!=', 'dtc'), ('has_manual_order_mode', '=', True)]}"/>
         </xpath>
+
+        <xpath expr="//group[@name='sales_person']" position="inside">
+            <field name="order_total_weight_kg"/>
+            <field name="order_total_weight_oz"/>
+            <field name="order_shipping_rule"/>
+            <field name="shipping_rule_code"/>
+        </xpath>
+        
     </field>
 </record>
 

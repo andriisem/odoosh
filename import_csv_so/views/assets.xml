@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="base_import assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/import_csv_so/static/src/js/import_action.js"></script>
+                <script type="text/javascript" src="/import_csv_so/static/src/js/import_buttons.js"></script>
+                <script type="text/javascript" src="/import_csv_so/static/src/js/partner_kanban_view_heandler.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

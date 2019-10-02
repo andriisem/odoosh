@@ -31,32 +31,3 @@ class PrintNode(models.Model):
     user_id = fields.Many2one(
         'user.preferences', 'User Preferences',
         index=True, ondelete='cascade')
-
-class ShippingRules(models.Model):
-    _name = 'shipping.rules'
-
-    name = fields.Char(string='Rule Name')
-    description = fields.Char(string='Description')    
-    carrier = fields.Selection(string='Carrier', selection=[
-            ('fedex', 'FedEx'),
-            ('ups', 'UPS'),
-            ('usps', 'USPS'),
-            ('dhl', 'DHL'),
-        ])
-    shipping_method = fields.Selection(string='Shipping Method', selection=[
-            ('fedex_ground', 'FedEx Ground'),
-            ('fedex_home_delivery', 'FedEx Home Delivery'),
-            ('fedex_smart_post', 'FedEx Smart Post'),
-            ('fedex_inter_economy', 'FedEx International Economy'),
-            ('fedex_express_saver', 'FedEx Express Saver'),
-            ('fedex_standard_overnight', 'FedEx Standard Overnight'),
-            ('fedex_2nd_day', 'FedEx 2nd Day'),
-            ('ups_ground', 'UPS Ground'),
-            ('ups_sure_post', 'UPS SurePost'),
-            ('ups_2day_delivery', 'UPS 2 DAY Delivery'),
-            ('ups_overnight', 'UPS OVERNIGHT'),            
-        ])
-    third_party_account = fields.Char(string='3rd Party Account')
-    third_party_account_zipcode = fields.Char(string='3rd Party Account Zipcode')
-    conditional_weight = fields.Boolean(string='Conditional Weight', default=False)
-    visible_rule = fields.Boolean(string='Visible Rule', default=False)    
