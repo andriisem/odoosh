@@ -7,13 +7,13 @@
         <form string="Cycle Count">
             <div class="centered-content">
                 <h1 style="text-align: center;">Scan Location</h1>
-                <h2 style="text-align: center;">
+                <h1 style="text-align: center;">
                     <field name="location_name" widget="find_location"/>
                     <field name="location_id" invisible="1"/>
                     <button name="action_find_location" class="btn-open" type="object" attrs="{'invisible': True}">
                         <span class="fa fa-arrow-right fa-3x" />
                     </button>
-                </h2>
+                </h1>
                 
             </div>        
             <footer class="cycle-count">
@@ -103,13 +103,13 @@
         <form string="Cycle Count">
             <div class="centered-content">
                 <h1 style="text-align: center;">Scan Product</h1>
-                <h2 style="text-align: center;">
+                <h1 style="text-align: center;">
                     <field name="barcode" widget="find_product"/>
                     <field name="product_id" invisible="1"/>
                     <button name="action_product_next_stage" class="btn-open" type="object" attrs="{'invisible': True}">
                         <span class="fa fa-arrow-right fa-3x" />
                     </button>
-                </h2>
+                </h1>
             </div>        
             <footer class="cycle-count">
                 <div id="camera-switch">
@@ -128,7 +128,7 @@
         <form string="Cycle Count">
             <div class="centered-content">
                 <h1 style="text-align: center;">Enter Quantity</h1>
-                <h2 style="text-align: center;">
+                <h1 style="text-align: center;">
                     <div>
                         <field name="qty" widget="char"/>
                     </div>
@@ -141,7 +141,7 @@
                         <widget name="o_field_keypad" service_name="partner_autocomplete"/>
                     </div>
                 
-                </h2>
+                </h1>
             </div>        
             <footer class="cycle-count">
                 <div id="camera-switch">
@@ -160,7 +160,7 @@
         <form string="Cycle Count">
             <div class="centered-content">
                 <h1 style="text-align: center;">Enter Quantity</h1>
-                <h2 style="text-align: center;">
+                <h1 style="text-align: center;">
                     <div>
                         <field name="qty" widget="char"/>
                     </div>
@@ -173,7 +173,7 @@
                         <widget name="o_field_keypad" service_name="partner_autocomplete"/>
                     </div>
                 
-                </h2>
+                </h1>
             </div>        
             <footer class="cycle-count">
                 <div id="camera-switch">
@@ -191,12 +191,12 @@
     <field name="arch" type="xml">
         <form string="Cycle Count">
             <div class="centered-content">
-                <h2 style="text-align: center;">
+                <h1 style="text-align: center;">
                     <div>
                         <button string="Yes" name="action_delate_yes" class="btn btn-success" type="object"/>
                         <button string="No" name="action_delate_no" class="btn btn-secondary" type="object"/>                        
                     </div>
-                </h2>
+                </h1>
             </div>        
             <footer class="cycle-count">
                 <div id="camera-switch">
