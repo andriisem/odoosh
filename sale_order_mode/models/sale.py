@@ -12,7 +12,7 @@ class SaleOrder(models.Model):
         ('mp', 'MP'),
         ('ws', 'WS'),
         ('sc', 'SC'),
-    ], string='Sale Order Mode', related='partner_id.x_studio_sale_order_mode')
+    ], string='Sale Order Mode', related='partner_id.sale_order_mode')
     sale_order_mode_manual = fields.Selection(selection=[
         ('dtc', 'DTC'),
         ('mp', 'MP'),
