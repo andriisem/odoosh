@@ -34,6 +34,7 @@ class SaleOrder(models.Model):
     # order_shipping_rule = fields.Many2one('shipping.rule', string='Order Shipping Rule', compute='_compute_order_shipping_rule')
     # shipping_rule_code = fields.Char(string='Shipping Rule Code', related='order_shipping_rule.ship_station_code')
 
+
     # @api.depends('sale_order_mode', 'sale_order_mode_manual')
     # def _compute_order_shipping_rule(self):
     #     for order in self:
