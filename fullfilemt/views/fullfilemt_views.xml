@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <menuitem id="menu_fullfilemt" name="Fullfilemt" web_icon="fullfilemt,static/description/icon.png" sequence="40"/>
+
+    <record id="fullfilemt_view_kanban" model="ir.ui.view">
+        <field name="name">fullfilemt.kanban</field>
+        <field name="model">fullfilemt</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_mobile" group_create="false">
+                <field name="stage_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_content">
+                            <div class="row">
+                                <div class="col-6">
+                                    <!-- Backorders -->
+                                    
+                                    <div t-if='record.name.value and record.stage_id.value == "Backorders"'>
+                                        <b>Order #: </b>
+                                        <field name="name"/>
+                                    </div>
+
+                                    <div t-if='record.partner_id.value and record.stage_id.value == "Backorders"'>
+                                        <b>Customer: </b>
+                                        <field name="partner_id"/>
+                                    </div>
+
+                                    <div t-if='record.total_products.value and record.stage_id.value == "Backorders"'>
+                                        <b># of items: </b>
+                                        <field name="total_products"/>
+                                    </div>
+
+                                    <!-- Samples/Replacements -->
+                                    
+                                    <div t-if='record.name.value and record.stage_id.value == "Samples/Replacements"'>
+                                        <b>Order #: </b>
+                                        <field name="name"/>
+                                    </div>
+
+                                    <div t-if='record.partner_id.value and record.stage_id.value == "Samples/Replacements"'>
+                                        <b>Customer: </b>
+                                        <field name="partner_id"/>
+                                    </div>
+
+                                    <div t-if='record.total_products.value and record.stage_id.value == "Samples/Replacements"'>
+                                        <b># of items: </b>
+                                        <field name="total_products"/>
+                                    </div>
+
+                                    <!-- Wholesale -->
+                                    
+                                    <div t-if='record.name.value and record.stage_id.value == "Wholesale"'>
+                                        <b>Order #: </b>
+                                        <field name="name"/>
+                                    </div>
+
+                                    <div t-if='record.partner_id.value and record.stage_id.value == "Wholesale"'>
+                                        <b>Customer: </b>
+                                        <field name="partner_id"/>
+                                    </div>
+
+                                    <div t-if='record.total_products.value and record.stage_id.value == "Wholesale"'>
+                                        <b># of items: </b>
+                                        <field name="total_products"/>
+                                    </div>
+                                    
+                                    <!-- DTC Single -->
+
+                                    <div t-if='record.product_name.value and record.stage_id.value == "DTC Single"'>
+                                        <b>Product Name: </b>
+                                        <field name="product_name"/> 
+                                    </div>
+
+
+                                    <div t-if='record.product_upc.value and record.stage_id.value == "DTC Single"'>
+                                        <b>UPC: </b>
+                                        <field name="product_upc"/>
+                                    </div>
+
+                                    <div t-if='record.total_qty.value and record.stage_id.value == "DTC Single"'>
+                                        <b>Qty per Order: </b>
+                                        <field name="total_qty"/>
+                                    </div>
+
+                                    <div t-if='record.due_date.value and record.stage_id.value == "DTC Single"'>
+                                        <b>Due Date: </b>
+                                        <field name="due_date"/> 
+                                    </div>
+
+
+                                    <!-- Multi -->
+                                    
+                                    <div t-if='record.all_dtc_multi_orders.value and record.stage_id.value == "DTC Multi"'>
+                                        <b>#of orders: </b>
+                                        <field name="all_dtc_multi_orders"/> 
+                                    </div>
+
+                                    <div t-if='record.all_dtc_multi_qty.value and record.stage_id.value == "DTC Multi"'>
+                                        <b>Total Quantity: </b>
+                                        <field name="all_dtc_multi_qty"/> 
+                                    </div>
+
+                                    <div t-if='record.dtc_multi_due_date.value and record.stage_id.value == "DTC Multi"'>
+                                        <b>Due Date: </b>
+                                        <field name="dtc_multi_due_date"/> 
+                                    </div>
+                
+
+                                </div>
+                                <div class="col-6">
+                                    <!-- Backorders -->
+
+                                     <div t-if='record.number_customer_po.value and record.stage_id.value == "Backorders"'>
+                                        <b>PO #: </b>
+                                        <field name="number_customer_po"/>
+                                    </div>
+                                    
+                                    
+                                    <div t-if='record.due_date.value and record.stage_id.value == "Backorders"'>
+                                        <b>Due Date: </b>
+                                        <field name="due_date"/>
+                                    </div>
+
+                                    <!-- Samples/Replacements -->
+
+                                     <div t-if='record.number_customer_po.value and record.stage_id.value == "Samples/Replacements"'>
+                                        <b>PO #: </b>
+                                        <field name="number_customer_po"/>
+                                    </div>
+                                    
+                                    <div t-if='record.due_date.value and record.stage_id.value == "Samples/Replacements"'>
+                                        <b>Due Date: </b>
+                                        <field name="due_date"/>
+                                    </div>
+
+                                    <!-- Wholesale -->
+
+                                    <div t-if='record.number_customer_po.value and record.stage_id.value == "Wholesale"'>
+                                        <b>PO #: </b>
+                                        <field name="number_customer_po"/>
+                                    </div>
+                                    
+                                    <div t-if='record.due_date.value and record.stage_id.value == "Wholesale"'>
+                                        <b>Due Date: </b>
+                                        <field name="due_date"/>
+                                    </div>
+
+                                    <!-- DTC Single -->
+
+                                    <div t-if='record.stage_id.value == "DTC Single"'>
+                                        <b>SKU: </b>
+                                        <field name="product_sku"/>
+                                    </div>
+
+                                    <div t-if='record.stage_id.value == "DTC Single"'>
+                                        <b># of orders: </b>
+                                        <field name="same_orders"/>
+                                    </div>
+                                    
+                                    <!-- Multi -->
+
+                                    <div t-if='record.all_dtc_multi_product.value and record.stage_id.value == "DTC Multi"'>
+                                        <b>#of products: </b>
+                                        <field name="all_dtc_multi_product"/> 
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <field name="color" invisible='1'/>
+                            <t t-if="record.color.value == 'full'">
+                                <div style="width: 100%; height: 10px; background-color: #008000;"/>
+                            </t>
+                            <t t-if="record.color.value == 'middle'">
+                                <div style="width: 100%; height: 10px; background-color: #ffc107;"/>
+                            </t>
+                            <t t-if="record.color.value == 'none'">
+                                <div style="width: 100%; height: 10px; background-color: #FF0000;"/>
+                            </t>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="fullfilemt_tree" model="ir.ui.view">
+        <field name="name">fullfilemt.tree</field>
+        <field name="model">fullfilemt</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="stage_id"/>
+                <!-- <field name="product_sku"/> -->
+            </tree>
+        </field>
+    </record>
+
+    <record id="fullfilemt_view_form" model="ir.ui.view">
+        <field name="name">fullfilemt.form</field>
+        <field name="model">fullfilemt</field>
+        <field name="arch" type="xml">
+            <form string="Fullfilemt">
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="field_name" placeholder="Subject..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="stage_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fullfilemt_action" model="ir.actions.act_window">
+        <field name="name">Fullfilemt</field>
+        <field name="res_model">fullfilemt</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,list</field>
+        <field name="view_id" ref="fullfilemt_view_kanban"/>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new
+            </p>
+        </field>
+    </record>
+
+    <menuitem action="fullfilemt_action" id="fullfilemt" name="Fullfilemt" parent="menu_fullfilemt" sequence="1"/>
+
+</odoo>

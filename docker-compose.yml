@@ -15,7 +15,7 @@ services:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pg10data12:/var/lib/postgresql/pgdata
   odoo10-ww:

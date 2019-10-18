@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <data>
+        <record id="backorders_stage" model="fullfilemt.stage">
+            <field name="name">Backorders</field>
+        </record>
+
+        <record id="samples_replacements_stage" model="fullfilemt.stage">
+            <field name="name">Samples/Replacements</field>
+        </record>
+
+        <record id="wholesale_stage" model="fullfilemt.stage">
+            <field name="name">Wholesale</field>
+        </record>
+
+        <record id="dtc_single_stage" model="fullfilemt.stage">
+            <field name="name">DTC Single</field>
+        </record>
+
+        <record id="dtc_multi_stage" model="fullfilemt.stage">
+            <field name="name">DTC Multi</field>
+        </record>
+
+        <record id="dtc_multi" model="fullfilemt.multi">
+            <field name="name">multi</field>
+            <field name="stage_id" ref='fullfilemt_stage.dtc_multi_stage'/>
+            <field name="stage_name">DTC Multi</field>
+        </record>
+        
+    </data>
+
+</odoo>

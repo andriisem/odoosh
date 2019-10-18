@@ -19,13 +19,14 @@ class SaleOrder(models.Model):
         ('ws', 'WS'),
         ('sc', 'SC'),
     ], string='Sale Order Mode')
-    total_products = fields.Integer(string='Total Products', compute='_compute_total_product')
-    total_qty = fields.Float(string='Total Quantitiy', compute='_compute_total_qty')
+    total_products = fields.Integer(string='Total Products', compute='_compute_total_product', store=True)
+    total_qty = fields.Float(string='Total Quantitiy', compute='_compute_total_qty', store=True)
+    same_orders = fields.Integer(string='# of orders', compute='_compute_same_orders', store=True)
     dtc_type = fields.Selection(selection=[
         ('single', 'Single'),
         ('multi', 'Multi'),
         ('empty', 'Empty'),
-    ], string="DTC Type", compute='_compute_dtc_type')
+    ], string="DTC Type", compute='_compute_dtc_type', store=True)
     dtc_note = fields.Char(string='DTC Note', compute='_compute_dtc_note')
     order_total_weight_kg = fields.Float(string='Order Total Weight (KG)', 
         compute='_compute_order_total_weight_kg')
@@ -59,6 +60,19 @@ class SaleOrder(models.Model):
                 weight += (line.product_id.weight * line.product_uom_qty)
             order.order_total_weight_kg = weight
     
+    @api.multi
+    @api.depends('order_line')
+    def _compute_same_orders(self):
+        for order in self:
+            if order.dtc_type == 'single':
+                product_id = order.order_line[0].product_id
+                sale_orders = self.env['sale.order'].search([
+                    ('order_line.product_id', '=', product_id.id),
+                    ('order_line.product_uom_qty', '=', order.order_line[0].product_uom_qty),
+                    ('state', '=', 'sale')
+                ])
+                order.same_orders = len(sale_orders)
+    
     @api.depends('order_total_weight_kg')
     def _compute_order_total_weight_oz(self):
         for order in self:
@@ -68,7 +82,7 @@ class SaleOrder(models.Model):
     @api.depends('order_line')
     def _compute_total_product(self):
         for order in self:
-            order.total_products = len(self.order_line)
+            order.total_products = len(order.order_line)
 
     @api.multi
     @api.depends('order_line.product_uom_qty')

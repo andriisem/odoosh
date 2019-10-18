@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <record id="view_order_form_stage" model="ir.ui.view">
+    <field name="name">delivery.sale.order.form.stage</field>
+    <field name="model">sale.order</field>
+    <field name="priority">99</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//group[@name='sale_shipping']" position="inside">
+            <field name="backorders"/>
+            <field name="stage_id"/>
+        </xpath>
+
+        <xpath expr="//field[@name='pricelist_id']" position="before">
+            <field name="due_date"/>
+        </xpath>
+        
+    </field>
+</record>
+
+</odoo>
