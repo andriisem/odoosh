@@ -109,3 +109,7 @@ class Fullfilemt(models.Model):
     def _read_group_stage_ids(self, states, domain, order):
         stage_ids = self.env['fullfilemt.stage'].search([])
         return stage_ids
+
+    @api.model
+    def action_check_availability(self):
+        pass

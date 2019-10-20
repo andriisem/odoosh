@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <record id="fullfilemt_check_availability_tree" model="ir.ui.view">
+        <field name="name">fullfilemt_check_availability_tree</field>
+        <field name="model">fullfilemt.check.availability</field>
+        <field name="arch" type="xml">
+            <tree string="" decoration-success="(missing_qty &lt;= 0)" default_order="missing_qty desc">
+                <field name="name" />
+                <field name="barcode"/>
+                <field name="of_orders"/>
+                <field name="qty_needed"/>
+                <field name="qty_in_stock"/>
+                <field name="qty_on_order"/>
+                <field name="qty_requested"/>
+                <field name="missing_qty" />
+                <button name="action_request_po" string="Request" type="object" attrs="{'invisible': [('missing_qty', '&lt;=', 0)]}"/>
+            </tree>
+        </field>
+    </record>
+    
+</odoo>

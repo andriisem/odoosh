@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="base_import assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/fullfilemt/static/src/js/fullfilemt.js"></script>
+                <script type="text/javascript" src="/fullfilemt/static/src/js/fullfilemt_check_availability.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
