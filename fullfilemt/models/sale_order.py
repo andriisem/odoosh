@@ -1,5 +1,6 @@
 from odoo import _, api, fields, models
 
+from dateutil.relativedelta import relativedelta
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -7,6 +8,13 @@ class SaleOrder(models.Model):
     backorders = fields.Boolean(string='Backorders')
     due_date = fields.Datetime(string='Due Date')
     stage_id = fields.Many2one('fullfilemt.stage', string='Stage', compute='_compute_stage', store=True) 
+
+    @api.model
+    def create(self, vals):
+        rec = super(SaleOrder, self).create(vals)
+        if not rec.partner_id.has_manual_due_date:
+            rec.due_date = rec.create_date + relativedelta(days=rec.partner_id.due_date)
+        return rec
 
     @api.depends('order_line', 'backorders', 'dtc_type', 'sale_order_mode_manual', 'partner_id.sale_order_mode')
     def _compute_stage(self):

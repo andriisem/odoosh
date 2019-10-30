@@ -15,6 +15,9 @@ class ResPartner(models.Model):
     ws_rule = fields.Many2one('rule.shipping', string='WS Rule')
     mp_rule = fields.Many2one('rule.shipping', string='MP Rule')
     sc_rule = fields.Many2one('rule.shipping', string='SC Rule')
+    has_manual_due_date = fields.Boolean(string='Manual Due Date')
+    due_date = fields.Integer(string='Due Date (Days)')
+
     
     has_do_not_crush = fields.Boolean(string='Do Not Crush')
     has_mixed = fields.Boolean(string='Mixed')
