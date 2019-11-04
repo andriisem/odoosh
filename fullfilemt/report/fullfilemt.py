@@ -6,6 +6,7 @@ class Fullfilemt(models.Model):
     _name = 'fullfilemt'
     _auto = False
     _rec_name = 'id'
+    _order = 'due_date'
 
     name = fields.Char(string='Name', readonly=True)
     product_name = fields.Char(string='Product Name')
@@ -18,12 +19,16 @@ class Fullfilemt(models.Model):
     number_customer_po = fields.Char(string='PO #')
     due_date = fields.Datetime(string='Due Date')
     partner_id = fields.Many2one('res.partner', string='Partner')
-    stage_id = fields.Many2one('fullfilemt.stage', string='Stage', ondelete='restrict', track_visibility='onchange', 
-        index=True, group_expand='_read_group_stage_ids', readonly=True)
-    all_dtc_multi_orders = fields.Integer(string='#of orders', compute='_compute_dtc_multi_attrs')
-    all_dtc_multi_product = fields.Integer(string='#of products', compute='_compute_dtc_multi_attrs')
-    all_dtc_multi_qty = fields.Float(string='Total Quantity', compute='_compute_dtc_multi_attrs')
-    dtc_multi_due_date = fields.Datetime(string='Due Date', compute='_compute_dtc_multi_attrs')
+    stage_id = fields.Many2one('fullfilemt.stage', string='Stage', ondelete='restrict', track_visibility='onchange',
+                               index=True, group_expand='_read_group_stage_ids', readonly=True)
+    all_dtc_multi_orders = fields.Integer(
+        string='#of orders', compute='_compute_dtc_multi_attrs')
+    all_dtc_multi_product = fields.Integer(
+        string='#of products', compute='_compute_dtc_multi_attrs')
+    all_dtc_multi_qty = fields.Float(
+        string='Total Quantity', compute='_compute_dtc_multi_attrs')
+    dtc_multi_due_date = fields.Datetime(
+        string='Due Date', compute='_compute_dtc_multi_attrs')
 
     def _compute_dtc_multi_attrs(self):
         for card in self:
@@ -33,7 +38,8 @@ class Fullfilemt(models.Model):
                     ('state', '=', 'sale'),
                     ('dtc_type', '=', 'multi')
                 ])
-                due_date = sale_ids.filtered(lambda r: r.due_date != False).mapped('due_date')
+                due_date = sale_ids.filtered(
+                    lambda r: r.due_date != False).mapped('due_date')
                 card.all_dtc_multi_orders = len(sale_ids)
                 all_dtc_multi_product = 0
                 all_dtc_multi_qty = 0
@@ -92,18 +98,17 @@ class Fullfilemt(models.Model):
     def _compute_color(self):
         for card in self:
             if card.name != 'multi':
-                sale_id = self.env['sale.order'].search([('name', '=', card.name)], limit=1)
+                sale_id = self.env['sale.order'].search(
+                    [('name', '=', card.name)], limit=1)
                 available_item = 0
                 for line in sale_id.order_line:
-                    if line.product_id.qty_available >= line.product_uom_qty:
-                        available_item += 1
+                    available_item += line.product_id.qty_available
                 if available_item == 0:
                     card.color = 'none'
-                elif available_item > 0 and available_item != len(sale_id.order_line):
+                elif available_item > 0 and available_item < sale_id.total_qty:
                     card.color = 'middle'
                 else:
                     card.color = 'full'
-
 
     @api.model
     def _read_group_stage_ids(self, states, domain, order):

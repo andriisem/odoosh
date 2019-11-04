@@ -69,7 +69,8 @@ class SaleOrder(models.Model):
                 sale_orders = self.env['sale.order'].search([
                     ('order_line.product_id', '=', product_id.id),
                     ('order_line.product_uom_qty', '=', order.order_line[0].product_uom_qty),
-                    ('state', '=', 'sale')
+                    ('state', '=', 'sale'),
+                    ('dtc_type', '=', 'single'),
                 ])
                 order.same_orders = len(sale_orders)
     

@@ -153,10 +153,10 @@
                                         <field name="product_sku"/>
                                     </div>
 
-                                    <div t-if='record.stage_id.value == "DTC Single"'>
+                                    <!-- <div t-if='record.stage_id.value == "DTC Single"'>
                                         <b># of orders: </b>
                                         <field name="same_orders"/>
-                                    </div>
+                                    </div> -->
                                     
                                     <!-- Multi -->
 
@@ -221,7 +221,7 @@
     </record>
 
     <record id="fullfilemt_action" model="ir.actions.act_window">
-        <field name="name">Fullfilemt</field>
+        <field name="name">Fulfillment</field>
         <field name="res_model">fullfilemt</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,form,list</field>
@@ -234,6 +234,6 @@
         </field>
     </record>
 
-    <menuitem action="fullfilemt_action" id="fullfilemt" name="Fullfilemt" parent="menu_fullfilemt" sequence="1"/>
+    <menuitem action="fullfilemt_action" id="fullfilemt" name="Fulfillment" parent="menu_fullfilemt" sequence="1"/>
 
 </odoo>

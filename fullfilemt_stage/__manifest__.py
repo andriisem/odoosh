@@ -1,5 +1,5 @@
 {
-    'name': 'Fullfilemt Stage',
+    'name': 'Fulfillment Stage',
     'summary': '',
     'description': '',
     'version': '1.0',

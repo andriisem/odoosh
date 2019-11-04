@@ -48,8 +48,19 @@ class FullfilemtCheckAavailability(models.Model):
                 ('state', '=', 'purchase')
             ])
             all_purchase_ids = self.env['purchase.order'].search([
-                ('order_line.name', '=', card.name)
+                ('order_line.name', '=', card.name),
+                ('state', 'not in', ('done', 'cancel'))
             ])
+
+            confirm_mrp_ids = self.env['mrp.production'].search([
+                ('product_id.name', '=', card.name),
+                ('state', '=', 'progress')
+            ])
+            all_mrp_ids = self.env['mrp.production'].search([
+                ('product_id.name', '=', card.name),
+                ('state', 'not in', ('done', 'cancel'))
+            ])
+
             qty_needed = 0
             for order in sale_ids:
                 order_line = order.order_line.filtered(lambda x: x.name == card.name)
@@ -58,8 +69,8 @@ class FullfilemtCheckAavailability(models.Model):
             card.of_orders = len(sale_ids)
             card.qty_needed = qty_needed
             card.qty_in_stock = qty_in_stock
-            card.qty_on_order = len(confirm_purchase_ids)
-            card.qty_requested = len(all_purchase_ids)
+            card.qty_on_order = sum(confirm_purchase_ids.mapped('total_qty')) or sum(confirm_mrp_ids.mapped('product_qty'))
+            card.qty_requested = sum(all_purchase_ids.mapped('total_qty')) or sum(all_mrp_ids.mapped('product_qty'))
             card.missing_qty = card.qty_needed - card.qty_in_stock - card.qty_requested
 
     @api.multi
@@ -71,10 +82,7 @@ class FullfilemtCheckAavailability(models.Model):
         ])
         if product_id and product_id.purchase_ok and product_id.seller_ids:
             supplierinfo = product_id.seller_ids[0]
-        else:
-            raise UserError(_("Product: %s doesn't have a seller") % (self.name))
-
-        Purchase.create({
+            Purchase.create({
             'partner_id': supplierinfo.name.id,
             'order_line': [
                 (0, 0, {
@@ -86,6 +94,14 @@ class FullfilemtCheckAavailability(models.Model):
                     'date_planned': fields.Datetime.now(),
                 })]
         })
+        else:
+            bom = self.env['mrp.bom']._bom_find(product=product_id)
+            self.env['mrp.production'].create({
+                'product_id': product_id.id,
+                'product_uom_id': product_id.uom_po_id.id,
+                'product_qty': self.missing_qty,
+                'bom_id': bom.id,
+            })
 
     @api.multi
     def action_request_all(self):
