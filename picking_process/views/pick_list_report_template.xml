@@ -5,19 +5,66 @@
         <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
         <div class="page">
             <div class="oe_structure"/>
-                <div class="">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h2>ORDER PICK LIST</h2>
-                            <span t-field="doc.name"/>
-
-                        </div>
-                        <div class="col-md-4">
-                            
-                        </div>
-                        <div class="col-md-4"></div>
+            <div id="header">
+                <div class="row">
+                    <div class="col-auto">
+                        <h1><b>ORDER PICK LIST</b></h1>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <h2>
+                            <span><b>Order:</b> <span t-field="doc.name"/></span>
+                        </h2>
+                        <h2>
+                            <span><b>Numbur of products:</b> <span t-field="doc.total_products"/></span>
+                        </h2>
+                    </div>
+                    <div class="col-auto">
+                        <h2 t-if="doc.confirmation_date">
+                            <span><b>Order Date:</b> <span t-field="doc.confirmation_date" t-options='{"format": "MM/dd/yyyy"}'/></span>
+                        </h2>
+                    </div>
+                    <div class="col-auto">
+                        <h2 t-if="doc.due_date">
+                            <span><b>Due Date:</b> <span t-field="doc.due_date" t-options='{"format": "MM/dd/yyyy"}'/></span>
+                        </h2>
+                        <h2 t-if="doc.total_qty">
+                            <span><b>Total Qty:</b> <span t-field="doc.total_qty"/></span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <br class="mt-4 mb-1"/>
+            <div id="main">
+                <table class="table table-sm o_main_table" style="font-size: 20px;">
+                    <tbody class="sale_tbody">
+                        <t t-foreach="doc.order_line" t-as="line">
+                            <tr>
+                                <t t-if="not line.display_type">
+                                    <td name="td_product">
+                                        <span style="display: block;text-align: center;" t-field="line.product_id.name"/>
+                                        <span style="display: block;text-align: center;" t-field="line.product_id.barcode"/>
+                                        <img style="max-width:100%;margin: 0 auto;display: block;" alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', line.product_id.barcode, 300, 90)"/>
+                                        <span style="display: block;text-align: center;" t-field="line.product_id.sku"/>
+                                        <span style="display: block;text-align: center;">Qty to pick: <span t-field="line.product_uom_qty"/></span>
+                                    </td>
+                                    <td name="td_name">
+                                        <t t-foreach="line.product_id.stock_quant_ids" t-as="quant">
+                                            <div>
+                                                <p style="display: block;text-align: center;"><span t-field="quant.location_id.name"/> <b><span t-field="quant.quantity"/></b></p>
+                                                <img style="max-width:100%;margin: 0 auto;display: block;" alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quant.location_id.barcode, 300, 90)"/>
+                                                <hr/>
+                                            </div>
+                                        </t>
+                                        <!-- stock_quant_ids -->
+                                    </td>  
+                                </t>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
             <div class="oe_structure"/>
         </div>
     </t>
