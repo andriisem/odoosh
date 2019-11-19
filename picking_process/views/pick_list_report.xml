@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="action_report_pick_list"
+            string="Print Pick List"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="picking_process.report_picklist" 
+            name="picking_process.report_picklist"
+            print_report_name="'Picking Process'"
+        />
+    </data>
+</odoo>

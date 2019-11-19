@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="view_picking_location_wizard" model="ir.ui.view">
+    <field name="name">Picking Proces</field>
+    <field name="model">picking.process</field>
+    <field name="arch" type="xml">
+        <form string="Picking Location">
+            <div class="centered-content">
+                <h1 style="text-align: center;">Select picking location: </h1>
+                <h2 style="text-align: center;">
+                    <field name="picking_location_id"/>
+                </h2>
+            </div>
+        </form>
+        <footer>
+            <button string="Next" name="action_go_to" type="object" class="oe_highlight"/>
+        </footer>
+    </field>
+</record>
+
+<record id="view_scan_location_location_wizard" model="ir.ui.view">
+    <field name="name">Finde Location</field>
+    <field name="model">picking.process</field>
+    <field name="arch" type="xml">
+        <form string="Cycle Count">
+            <div class="centered-content">
+                <h1 style="text-align: center;">Scan Location</h1>
+                <h1 style="text-align: center;">
+                    <field name="location_name" widget="find_location"/>
+                    <field name="location_id" invisible="1"/>
+                </h1>
+                <button name="action_find_location" class="btn-open" type="object" attrs="{'invisible': True}"/>
+            </div>        
+            <footer/>
+        </form>
+    </field>
+</record>
+
+
+<record id="view_find_product_wizard" model="ir.ui.view">
+    <field name="name">Find Product</field>
+    <field name="model">cycle.count.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Cycle Count">
+            <div class="centered-content">
+                <h1 style="text-align: center;">Scan Product</h1>
+                <h1 style="text-align: center;">
+                    <field name="barcode" widget="find_product"/>
+                    <field name="product_id" invisible="1"/>
+                    <button name="action_product_next_stage" class="btn-open" type="object" attrs="{'invisible': True}">
+                        <span class="fa fa-arrow-right fa-3x" />
+                    </button>
+                </h1>
+            </div>        
+            <footer class="cycle-count">
+                <div id="camera-switch">
+                    <i class="fa fa-camera mr8"/>
+                    <field name="active_camera" widget="toggle_button"/>
+                </div>
+            </footer>
+        </form>
+    </field>
+</record>
+
+</odoo>
