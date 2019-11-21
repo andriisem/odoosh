@@ -37,9 +37,7 @@ class PickingProcess(models.TransientModel):
             self.location_id = location_id
         else:
             raise UserError(_('Location not found'))
-        form_view_id = self.env.ref('cycle_count_friendly.view_stock_onhand_count_wizard').id
-    
-        quant_ids = self.location_id.quant_ids.filtered(lambda x: x.quantity != 0)
+        form_view_id = self.env.ref('picking_process.view_stock_onhand_count_wizard').id
         return {
             'name': _('Picking'),
             'type': 'ir.actions.act_window',

@@ -11,6 +11,8 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    pack_history_id = fields.Many2one('pack.history', string='Pack History')
+
     @api.multi
     def print_pick_process(self):
         return self.env.ref('picking_process.action_report_pick_list').report_action(self)
