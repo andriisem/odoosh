@@ -24,11 +24,15 @@
                         <notebook>
                             <page string="Move">
                                 <field name="move_ids">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" decoration-success="state=='done'" decoration-danger="state=='not_available'">
+                                        <field name="sequence" widget="handle"/>
                                         <field name="product_id"/>
-                                        <field name="qty"/>
+                                        <field name="qty_needed"/>
+                                        <field name="qty_available"/>
+                                        <field name="qty_done"/>
                                         <field name="pick_location_id"/>
-                                        <field name="from_location_id"/>    
+                                        <field name="from_location_id"/>
+                                        <field name="state" />
                                     </tree>
                                 </field>
                             </page>
