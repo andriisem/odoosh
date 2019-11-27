@@ -51,7 +51,7 @@
                                     </td>
                                     <td name="td_name">
                                         <t t-foreach="line.product_id.stock_quant_ids" t-as="quant">
-                                            <div>
+                                            <div t-if="quant.quantity > 0">
                                                 <p style="display: block;text-align: center;"><span t-field="quant.location_id.name"/> <b><span t-field="quant.quantity"/></b></p>
                                                 <img style="max-width:100%;margin: 0 auto;display: block;" alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quant.location_id.barcode, 300, 90)"/>
                                                 <hr/>
