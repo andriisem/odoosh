@@ -42,6 +42,26 @@
 </record>
 
 
+<record id="view_stock_select_other_location" model="ir.ui.view">
+    <field name="name">Select Other Location</field>
+    <field name="model">picking.process</field>
+    <field name="arch" type="xml">
+        <form>
+            <div class="centered-content">
+                <h3 style="text-align: center;">You entered less quantity than necessary. Please choose a spare warehouse</h3>
+                <h1 style="text-align: center;">
+                    <field name="location_id"/>
+                    <button name="action_confirm_other_stock" class="btn btn-success" type="object">
+                        <span>Select</span>
+                    </button>
+                </h1>
+            </div>
+            <footer/>
+        </form>
+    </field>
+</record>
+
+
 <record id="view_stock_add_product_wizard" model="ir.ui.view">
     <field name="name">Add Product</field>
     <field name="model">picking.process</field>
