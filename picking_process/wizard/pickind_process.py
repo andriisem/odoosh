@@ -11,7 +11,7 @@ class PickingProcess(models.TransientModel):
     _description = 'Picking Process'
 
     picking_location_id = fields.Many2one(
-        'stock.location', string='Location', domain="[('usage', '!=', 'view'), ('is_picking_location', '=', True)]")
+        'stock.location', string='Location', domain="[('usage', '!=', 'view'), ('is_picking_location', '=', True)]", required=True)
     location_id = fields.Many2one(
         'stock.location', string='Location', domain="[('usage', '!=', 'view')]")
     
@@ -120,28 +120,34 @@ class PickingProcess(models.TransientModel):
             'res_model': 'picking.process',
         }
 
-    # TO DO
     @api.multi
     def action_find_location(self):
         self.ensure_one()
+        location_from_context = self._context.get('from_location_name')
         location_id = self.location_id.search(
             [('name', '=', self.location_name)])
         if location_id:
             self.location_id = location_id
         else:
             raise UserError(_('Location not found'))
-        form_view_id = self.env.ref(
-            'picking_process.view_stock_add_product_wizard').id
-        return {
-            'name': _('Picking'),
-            'type': 'ir.actions.act_window',
-            'views': [(form_view_id, 'form')],
-            'view_mode': 'form',
-            'view_type': 'form',
-            'target': 'new',
-            'context': {},
-            'res_model': 'picking.process',
-        }
+        
+        if location_id.name == location_from_context:
+            form_view_id = self.env.ref(
+                'picking_process.view_stock_add_product_wizard').id
+            product_id = self.env['product.product'].browse(
+                self._context.get('product_id'))
+            return {
+                'name': _('Find the Product: [%s] [%s]' % (product_id.name, product_id.barcode)),
+                'type': 'ir.actions.act_window',
+                'views': [(form_view_id, 'form')],
+                'view_mode': 'form',
+                'view_type': 'form',
+                'target': 'new',
+                'context': {},
+                'res_model': 'picking.process',
+            }
+        else:
+            raise UserError(_('Go To %s location' % location_from_context))
 
     @api.multi
     def action_open_location(self):
@@ -163,23 +169,31 @@ class PickingProcess(models.TransientModel):
     @api.multi
     def action_product_next_stage(self):
         self.ensure_one()
-        # product_id = self.product_id.search([('barcode', '=', self.barcode)])
-        # if product_id:
-        #     self.product_id = product_id
-        # else:
-        #     raise UserError(_('Product not found'))
-        # location_id = self.env['stock.location'].browse(self._context.get('location_id'))
-        # form_view_id = self.env.ref('cycle_count_friendly.view_stock_enter_qry_product_wizard').id
-        # return {
-        #     'name': _('Add New items to %s' % location_id.display_name),
-        #     'type': 'ir.actions.act_window',
-        #     'views': [(form_view_id, 'form')],
-        #     'view_mode': 'form',
-        #     'view_type': 'form',
-        #     'target': 'new',
-        #     # 'context': {'product_id': self.product_id.id},
-        #     'res_model': 'picking.process',
-        # }
+        product_id = self.product_id.search([('barcode', '=', self.barcode)])
+        product_from_cobtext = self.env['product.product'].browse(self._context.get('product_id'))
+        if product_id:
+            self.product_id = product_id
+        else:
+            raise UserError(_('Product not found'))
+
+        if product_id.id == self._context.get('product_id'):
+            form_view_id = self.env.ref(
+                'picking_process.view_stock_enter_qry_product_wizard').id
+            qty_needed = self._context.get('qty_needed')
+
+            return {
+                'name': _(''),
+                'type': 'ir.actions.act_window',
+                'views': [(form_view_id, 'form')],
+                'view_mode': 'form',
+                'view_type': 'form',
+                'target': 'new',
+                'context': {'default_qty': qty_needed},
+                'res_model': 'picking.process',
+            }
+        else:
+            raise UserError(_('Find the Product: [%s] [%s]' % (product_from_cobtext.name, product_from_cobtext.barcode)))
+
 
     @api.multi
     def action_open_product(self):
@@ -250,9 +264,30 @@ class PickingProcess(models.TransientModel):
                 'context': {'qty': self.qty},
                 'res_model': 'picking.process',
             }
+        elif move_id.qty_needed < self.qty:
+            raise UserError(_('You entered more than necessary'))
         return self.action_go_to()
 
 
     @api.multi
     def action_confirm_other_stock(self):
-        pass
+        product_id = self._context.get('product_id')
+        history_id = self.env['pack.history'].browse(
+            self._context.get('history_id'))
+        qty_needed = self._context.get('qty_needed')
+        qty = self._context.get('qty')
+        aval = self.location_id.quant_ids.filtered(lambda x: x.product_id.id == product_id)
+        if aval and sum(aval.mapped('quantity')):
+            history_id.write({
+                'move_ids': [(0, 0, {
+                    'product_id': self._context.get('product_id'),
+                    'qty_needed': qty_needed - qty,
+                    'qty_available': sum(aval.mapped('quantity')),
+                    'pick_location_id': history_id.pick_location_id.id,
+                    'from_location_id': self.location_id.id,
+                    'state': 'draft',
+                })]
+            })
+            return self.action_go_to()
+        else:
+            raise UserError(_('Not Exist'))
