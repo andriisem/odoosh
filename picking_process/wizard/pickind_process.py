@@ -11,7 +11,7 @@ class PickingProcess(models.TransientModel):
     _description = 'Picking Process'
 
     picking_location_id = fields.Many2one(
-        'stock.location', string='Location', domain="[('usage', '!=', 'view'), ('is_picking_location', '=', True)]", required=True)
+        'stock.location', string='Location', domain="[('usage', '!=', 'view'), ('is_picking_location', '=', True)]")
     location_id = fields.Many2one(
         'stock.location', string='Location', domain="[('usage', '!=', 'view')]")
     
