@@ -18,7 +18,7 @@ class PackHistory(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
-    ], string='Status', default='draft')
+    ], string='Status')
     pick_location_id = fields.Many2one('stock.location', string='Pick Location')
 
 
@@ -37,6 +37,7 @@ class PackHistoryMove(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('not_available', 'Not Available'),
+        ('checked_not_avaliable', 'Not Avaliable'),
         ('done', 'Done'),
         ], string='Status')
     sequence = fields.Integer('Sequence', default=100)

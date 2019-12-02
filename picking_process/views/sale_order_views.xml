@@ -7,8 +7,26 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="print_pick_process" string="Print Pick List" type="object" class="oe_stat_button"/>
+                
                 <button name="action_pick" string="Pick" type="object" class="oe_stat_button"/>
+            </xpath>
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="aсtion_short_history"
+                    class="oe_stat_button"
+                    style="background-color: red; color: white;"
+                    icon="fa-box"
+                    type="object"
+                    string="Short"
+                    attrs="{'invisible': [('short_history_id', '=', False)]}">
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='pricelist_id']" position="after">
+                <field name="short_history_id"/>
             </xpath>
         </field>
     </record>
+
+    
 </odoo>

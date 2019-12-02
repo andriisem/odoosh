@@ -90,35 +90,76 @@ class PickingProcess(models.TransientModel):
                     pass
                 
             sale_order.pack_history_id = history_id.id
-        queue = [(d.from_location_id.name, d.product_id.id, d.qty_needed)
-                 for d in history_id.move_ids if d.state == 'draft']
+
         queue = [
             {
                 'from_location_name': d.from_location_id.name,
                 'from_location_id': d.from_location_id.id,
                 'product_id': d.product_id.id,
-                'qty_needed': d.qty_needed
-            } for d in history_id.move_ids if d.state == 'draft']
+                'qty_needed': d.qty_needed,
+                'state': d.state
+            } for d in history_id.move_ids if d.state in ('draft', 'not_available')]
         if queue:
             _context = self._context.copy()
             _context['history_id'] = history_id.id
+            _context['state'] = queue[0].get('state')
             _context['product_id'] = queue[0].get('product_id')
             _context['qty_needed'] = queue[0].get('qty_needed')
             _context['from_location_name'] = queue[0].get('from_location_name')
             _context['from_location_id'] = queue[0].get('from_location_id')
             location_name = queue[0].get('from_location_name')
         else:
+            done_item = history_id.move_ids.filtered(lambda x: x.state == 'done')
+            if len(done_item) != len(history_id.move_ids):
+                sale_order.short_history_id = history_id.id    
             return {}
+        if location_name:
+            return {
+                'name': _('Go To: %s' % location_name),
+                'type': 'ir.actions.act_window',
+                'views': [(form_view_id, 'form')],
+                'view_mode': 'form',
+                'view_type': 'form',
+                'target': 'new',
+                'context': _context,
+                'res_model': 'picking.process',
+            }
+        else:
+            return self.with_context(_context).action_item_not_exist()
+
+    @api.multi
+    def action_skip(self):
+        history_id = self.env['pack.history'].browse(
+            self._context.get('history_id'))
+        product_id = self.env['product.product'].browse(
+            self._context.get('product_id'))
+        from_location_id = self.env['stock.location'].browse(
+            self._context.get('from_location_id'))
+        move_id = history_id.move_ids.filtered(
+            lambda x: x.product_id == product_id and x.from_location_id == from_location_id)
+        move_id.state = 'checked_not_avaliable'
+        return self.action_go_to()
+
+
+        
+
+    @api.multi
+    def action_item_not_exist(self):
+        product_id = self.env['product.product'].browse(
+                self._context.get('product_id'))
+        form_view_id = self.env.ref(
+                'picking_process.view_stock_product_not_exist_wizard').id
         return {
-            'name': _('Go To: %s' % location_name),
-            'type': 'ir.actions.act_window',
-            'views': [(form_view_id, 'form')],
-            'view_mode': 'form',
-            'view_type': 'form',
-            'target': 'new',
-            'context': _context,
-            'res_model': 'picking.process',
-        }
+                'name': _('Find the Product: [%s] [%s]' % (product_id.name, product_id.barcode)),
+                'type': 'ir.actions.act_window',
+                'views': [(form_view_id, 'form')],
+                'view_mode': 'form',
+                'view_type': 'form',
+                'target': 'new',
+                'context': self._context,
+                'res_model': 'picking.process',
+            }
+
 
     @api.multi
     def action_find_location(self):

@@ -16,6 +16,9 @@
         <field name="model">pack.history</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="order_id"/>
@@ -24,7 +27,7 @@
                         <notebook>
                             <page string="Move">
                                 <field name="move_ids">
-                                    <tree editable="bottom" decoration-success="state=='done'" decoration-danger="state=='not_available'">
+                                    <tree editable="bottom" decoration-success="state=='done'" decoration-danger="state in ('not_available', 'checked_not_avaliable')">
                                         <field name="sequence" widget="handle"/>
                                         <field name="product_id"/>
                                         <field name="qty_needed"/>
@@ -44,7 +47,7 @@
     </record>
 
     <record id="pack_history_action" model="ir.actions.act_window">
-        <field name="name">Pack History</field>
+        <field name="name">Pick History</field>
         <field name="res_model">pack.history</field>
         <field name="view_type">form</field>
         <field name="view_mode">list,form,list</field>
@@ -52,7 +55,16 @@
         <field name="target">main</field>
     </record>
 
-    <menuitem action="pack_history_action" id="menu_pack_history" name="Pack History" parent="sale.menu_sale_config" sequence="1"/>
+    <record id="pack_history_form_action" model="ir.actions.act_window">
+        <field name="name">Pick History</field>
+        <field name="res_model">pack.history</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="pack_history_form_view"/>
+        <field name="target">main</field>
+    </record>
+
+    <menuitem action="pack_history_action" id="menu_pack_history" name="Pick History" parent="sale.menu_sale_config" sequence="1"/>
     
 
 </odoo>

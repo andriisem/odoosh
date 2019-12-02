@@ -10,7 +10,8 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    pack_history_id = fields.Many2one('pack.history', string='Pack History')
+    pack_history_id = fields.Many2one('pack.history', string='Pick History')
+    short_history_id = fields.Many2one('pack.history', string='Short')
 
     @api.multi
     def print_pick_process(self):
@@ -32,3 +33,10 @@ class SaleOrder(models.Model):
             'context': _context,
             'res_model': 'picking.process',
         }
+
+    @api.multi
+    def aсtion_short_history(self):
+        history_id = self.pack_history_id
+        action = self.env.ref('picking_process.pack_history_form_action').read()[0]
+        action['res_id'] = history_id.id
+        return action
