@@ -19,6 +19,7 @@
         'views/pick_list_report.xml',
         'views/stock_location_views.xml',
         'views/pack_history_view.xml',
+        'data/template_mail.xml',
     ],
     'auto_install': False,
     'application': True,

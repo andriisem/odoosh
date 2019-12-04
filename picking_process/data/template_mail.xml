@@ -1,0 +1,17 @@
+<odoo> 
+    <data noupdate="0"> 
+        <record id="email_template" model="mail.template"> 
+            <field name="name">Picking Process</field> 
+            <field name="subject">Item not exist - picking</field> 
+            <field name="auto_delete" eval="True"/> 
+            <field name="user_signature" eval="False"/> 
+            <field name="email_from"></field> 
+            <field name="email_to"></field> 
+            <field name="model_id" ref="picking_process.model_picking_process"/>
+            <field name="body_html" type="xml">
+                <p>{object.user} reported that ({object.product_id.name}) not exist in location ({object.location_id.name}). System shows {object.qty}</p>
+            </field>
+        </record>
+    </data> 
+</odoo> 
+ 

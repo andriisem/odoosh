@@ -76,6 +76,9 @@
                     <button name="action_open_product" class="btn btn-success" type="object">
                         <span>Go To Product</span>
                     </button>
+                    <button name="action_skip" class="btn btn-danger" type="object">
+                        <span>ITEM NOT EXIST</span>
+                    </button>
                 </h1>
             </div>        
             <footer/>            
