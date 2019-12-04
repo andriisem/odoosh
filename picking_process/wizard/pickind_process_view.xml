@@ -103,6 +103,23 @@
     </field>
 </record>
 
+<record id="view_stock_product_not_exist_wizard" model="ir.ui.view">
+    <field name="name">Add Product</field>
+    <field name="model">picking.process</field>
+    <field name="arch" type="xml">
+        <form>
+            <div class="centered-content">
+                <h1 style="text-align: center;">
+                    <button name="action_skip" class="btn btn-danger" type="object">
+                        <span>ITEM NOT EXIST</span>
+                    </button>
+                </h1>
+            </div>        
+            <footer/>            
+        </form>
+    </field>
+</record>
+
 <record id="view_stock_enter_qry_product_wizard" model="ir.ui.view">
     <field name="name">Enter qty</field>
     <field name="model">picking.process</field>

@@ -115,15 +115,16 @@ class PickingProcess(models.TransientModel):
             return {}
         
         return {
-            'name': _('Go To: %s' % location_name),
-            'type': 'ir.actions.act_window',
-            'views': [(form_view_id, 'form')],
-            'view_mode': 'form',
-            'view_type': 'form',
-            'target': 'new',
-            'context': _context,
-            'res_model': 'picking.process',
-        }
+                'name': _('Find the Product: [%s] [%s]' % (product_id.name, product_id.barcode)),
+                'type': 'ir.actions.act_window',
+                'views': [(form_view_id, 'form')],
+                'view_mode': 'form',
+                'view_type': 'form',
+                'target': 'new',
+                'context': self._context,
+                'res_model': 'picking.process',
+            }
+
 
     @api.multi
     def action_skip(self):
