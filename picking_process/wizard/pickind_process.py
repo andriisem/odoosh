@@ -115,16 +115,15 @@ class PickingProcess(models.TransientModel):
             return {}
         
         return {
-                'name': _('Find the Product: [%s] [%s]' % (product_id.name, product_id.barcode)),
-                'type': 'ir.actions.act_window',
-                'views': [(form_view_id, 'form')],
-                'view_mode': 'form',
-                'view_type': 'form',
-                'target': 'new',
-                'context': self._context,
-                'res_model': 'picking.process',
-            }
-
+            'name': _('Go To: %s' % location_name),
+            'type': 'ir.actions.act_window',
+            'views': [(form_view_id, 'form')],
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new',
+            'context': _context,
+            'res_model': 'picking.process',
+        }
 
     @api.multi
     def action_skip(self):
@@ -144,7 +143,7 @@ class PickingProcess(models.TransientModel):
 
         template_id = self.env.ref('picking_process.email_template', False) 
         template_id.email_from = self.env.user.email 
-        template_id.email_to = '' 
+        template_id.email_to = 'adir@macoci.com'
         template_id.send_mail(self.id, force_send=True) 
 
         return self.action_go_to()
