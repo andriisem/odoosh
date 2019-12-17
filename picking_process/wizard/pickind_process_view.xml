@@ -139,7 +139,12 @@
                     </div>
                 </h1>
             </div>        
-            <footer/>
+            <footer>
+            <button name="action_open_location" class="btn-open" type="object">
+                <span class="fa fa-arrow-left fa-3x" />
+            </button>
+                
+            </footer>
         </form>
     </field>
 </record>
